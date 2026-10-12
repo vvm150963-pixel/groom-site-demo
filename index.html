@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГрумАрт — студия груминга, Ульяновск</title>
+<meta name="description" content="Студия груминга «ГрумАрт» в Ульяновске: стрижка собак и кошек без стресса и жёсткой фиксации. Ежедневно 9:00–20:00, ул. Аблукова, 20.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0817;
+    --panel:#141031;
+    --line:rgba(168,85,247,.22);
+    --text:#F4F1FB;
+    --muted:rgba(244,241,251,.66);
+    --blue:#4F7CFF; --violet:#A855F7; --pink:#F472B6;
+    --grad:linear-gradient(90deg,#4F7CFF,#A855F7,#F472B6);
+    --sidebar-w:248px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{color-scheme:dark;overflow-x:hidden}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:'Onest',system-ui,sans-serif;line-height:1.55;
+    min-height:100vh;
+  }
+  /* full-bleed-секции шире экрана: якорные переходы не должны прокручивать страницу вбок */
+  html,body{overflow-x:clip}
+  /* общий фон страницы — фактура платы из ролика, живёт под всеми секциями */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:
+      linear-gradient(rgba(10,8,23,.72),rgba(10,8,23,.8)),
+      url('assets/hero/texture.jpg') center 35%/cover no-repeat;
+  }
+  ::selection{background:rgba(168,85,247,.45);color:#fff}
+  ::-webkit-scrollbar{width:10px}
+  ::-webkit-scrollbar-thumb{background:#241b4a;border-radius:8px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:4px}
+
+  /* ---------- сайдбар ---------- */
+  .layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;min-height:100vh}
+  .sidebar{
+    position:sticky;top:0;height:100vh;
+    display:flex;flex-direction:column;
+    padding:28px 22px;border-right:1px solid rgba(168,85,247,.14);
+    background:rgba(10,8,23,.72);backdrop-filter:blur(8px);
+  }
+  .logo{font-family:'Russo One',sans-serif;font-size:23px;letter-spacing:.01em}
+  .logo-sub{font-size:12px;color:var(--muted);margin:2px 0 0 2px;letter-spacing:.02em}
+  .brand{
+    background:linear-gradient(103deg,#5B7CFF 0%,#8FA8FF 15%,#EDF3FF 29%,#FFFFFF 34%,#C9A6FF 46%,#A855F7 56%,#E77BC0 70%,#F472B6 84%,#5B7CFF 100%);
+    background-size:230% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:flow 7s linear infinite;
+  }
+  @keyframes flow{to{background-position:230% 0}}
+  .nav{margin-top:44px;display:grid;gap:11px}
+  .nav a{
+    display:flex;align-items:center;gap:10px;
+    padding:12px 15px;border-radius:14px;
+    border:1px solid rgba(168,85,247,.28);
+    color:var(--muted);font-size:15px;font-weight:500;
+    transition:color .18s,background .18s,border-color .18s;
+  }
+  .nav a svg{width:17px;height:17px;flex:none;opacity:.75}
+  .nav a:hover{color:var(--text);background:rgba(168,85,247,.10);border-color:rgba(244,114,182,.45)}
+  .side-contacts{margin-top:auto;display:grid;gap:10px;font-size:13.5px;color:var(--muted)}
+  .side-contacts .row{display:flex;align-items:flex-start;gap:9px}
+  .side-contacts svg{width:15px;height:15px;flex:none;margin-top:2px;opacity:.7}
+  .side-contacts a{transition:color .18s}
+  .side-contacts a:hover{color:var(--text)}
+  .side-phone{font-family:'Russo One',sans-serif;font-size:15px;color:var(--text)!important}
+
+  /* мобильная верхняя панель */
+  .topbar{display:none}
+  .mobile-menu{display:none}
+
+  /* ---------- шапка-видео от края до края ---------- */
+  main{min-width:0}
+
+  /* ---------- hero: текст поверх видео, в тихой зоне слева-внизу ---------- */
+  .hero-stage{position:relative}
+  .hero-video{position:relative;isolation:isolate}
+  .hero-video video{
+    display:block;width:100%;
+    height:clamp(320px,50vw,680px);object-fit:cover;object-position:center top;
+  }
+  /* скрим под текстовую зону: мягкое затемнение слева-внизу + плавный уход видео в фон страницы */
+  .hero-video::after{
+    content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:
+      linear-gradient(to right,rgba(10,8,23,.62),transparent 52%),
+      linear-gradient(to top,rgba(10,8,23,.82),rgba(10,8,23,.18) 46%,transparent 66%);
+  }
+  .hero-stage .hero-video::after{
+    background:
+      linear-gradient(to right,rgba(10,8,23,.62),transparent 52%),
+      linear-gradient(to top,rgba(10,8,23,.82),rgba(10,8,23,.18) 46%,transparent 66%),
+      linear-gradient(to bottom,transparent 82%,rgba(10,8,23,.35) 93%,rgba(10,8,23,.55) 100%);
+  }
+
+  .hero{padding:26px clamp(18px,4vw,54px) clamp(34px,4vw,54px)}
+  .hero h1{
+    font-family:'Russo One',sans-serif;font-weight:400;
+    font-size:clamp(30px,3.4vw,48px);line-height:1.14;letter-spacing:.005em;
+    margin-bottom:14px;text-wrap:balance;
+  }
+  .hero h1 em{
+    font-style:normal;
+    background:linear-gradient(92deg,#8FA8FF,#C9A6FF 45%,#F472B6);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero .lead{
+    color:rgba(244,241,251,.78);font-size:clamp(14.5px,1.25vw,16.5px);
+    max-width:42ch;margin-bottom:24px;
+  }
+  .hero .lead b{color:var(--text);font-weight:600}
+  .actions{display:flex;flex-wrap:wrap;gap:14px}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:'Onest',sans-serif;font-size:15px;font-weight:600;
+    padding:13px 26px;border-radius:16px;border:1px solid transparent;
+    transition:transform .18s,box-shadow .18s,border-color .18s,background .18s;
+  }
+  .btn svg{width:17px;height:17px}
+  .btn-primary{
+    background:var(--grad);color:#fff;
+    box-shadow:0 10px 30px -10px rgba(122,87,255,.55);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 38px -10px rgba(168,85,247,.6)}
+  .btn-ghost{border-color:rgba(168,85,247,.4);color:var(--text);background:rgba(10,8,23,.35)}
+  .btn-ghost:hover{border-color:rgba(168,85,247,.7);background:rgba(168,85,247,.12)}
+
+  /* на десктопе видео занимает весь первый экран, текст — оверлей в тихой зоне; на мобильных текст под видео */
+  @media (min-width:821px){
+    .hero-stage{height:100vh;height:100svh;min-height:560px}
+    .hero-stage .hero-video,
+    .hero-stage .hero-video video{height:100%}
+    .hero-stage .hero{
+      position:absolute;left:0;bottom:0;z-index:2;
+      max-width:min(620px,58%);
+      padding:0 clamp(22px,3vw,48px) clamp(26px,3vw,46px);
+    }
+  }
+
+  /* ---------- секции ниже первого экрана ---------- */
+  .section{
+    padding:clamp(48px,7vw,110px) clamp(18px,4vw,54px);
+  }
+  .section-title{
+    font-family:'Russo One',sans-serif;font-weight:400;
+    font-size:clamp(26px,2.6vw,40px);line-height:1.15;letter-spacing:.005em;
+  }
+  .why{
+    /* левый край текста совпадает с hero-оверлеем (clamp(22px,3vw,48px)) */
+    margin:0;
+    padding:clamp(40px,5vw,64px) clamp(22px,3vw,48px) clamp(44px,5vw,70px);
+  }
+  .why-grid{display:grid;grid-template-columns:minmax(260px,2fr) 3fr;gap:clamp(28px,4vw,72px);align-items:start}
+  .why .section-title{font-size:clamp(26px,2.6vw,44px);line-height:1.14;letter-spacing:.005em;margin-bottom:14px;white-space:nowrap}
+  .why .section-title em{
+    font-style:normal;
+    background:linear-gradient(92deg,#8FA8FF,#C9A6FF 45%,#F472B6);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .why-note{color:rgba(244,241,251,.78);font-size:clamp(14.5px,1.25vw,16.5px);max-width:42ch;margin:0 0 22px}
+  .why-media{display:grid}
+  .why-media .ga-stage{margin-top:0;max-width:460px;width:100%;margin-left:auto}
+  .why-list{display:grid;gap:10px}
+  .why-item{
+    display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;
+    padding:16px 18px;border:1px solid rgba(168,85,247,.16);
+    background:rgba(20,16,49,.42);border-radius:14px;
+  }
+  .why-item svg{width:22px;height:22px;color:var(--violet);margin-top:3px}
+  .why-item h3{font-size:16px;font-weight:600;margin-bottom:3px}
+  .why-item p{color:var(--muted);font-size:13.5px;max-width:56ch}
+  .why-actions{margin-top:clamp(26px,3vw,42px)}
+
+  /* большой экран галереи в «Подходе»: фото по кругу, окантовка заполняется 4с */
+  .ga-stage{
+    position:relative;width:100%;aspect-ratio:3/4;max-width:360px;
+    border-radius:22px;overflow:hidden;margin-top:26px;
+    border:1px solid rgba(168,85,247,.25);
+  }
+  .ga-stage img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;
+    opacity:0;transition:opacity .6s;pointer-events:none;
+  }
+  .ga-stage img.on{opacity:1}
+  @media (prefers-reduced-motion: reduce){ .ga-stage img{transition:none} }
+
+  /* ---------- цены ---------- */
+  .prices{
+    /* как hero/подход: левый край на одной линии, без центрирования */
+    margin:0;
+    padding:clamp(40px,5vw,64px) clamp(22px,3vw,48px) clamp(44px,5vw,70px);
+  }
+  .prices .section-title{
+    font-size:clamp(26px,2.6vw,44px);line-height:1.14;letter-spacing:.005em;
+    margin-bottom:14px;white-space:nowrap;
+  }
+  .prices .section-title em{
+    font-style:normal;
+    background:linear-gradient(92deg,#8FA8FF,#C9A6FF 45%,#F472B6);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .price-tabs{
+    display:flex;gap:10px;overflow-x:auto;padding:4px 2px 14px;
+    scrollbar-width:none;margin-bottom:8px;
+  }
+  .price-tabs::-webkit-scrollbar{display:none}
+  .ptab{
+    flex:none;font-family:'Onest',sans-serif;font-size:14.5px;font-weight:600;
+    color:var(--muted);background:rgba(20,16,49,.55);
+    border:1px solid rgba(168,85,247,.28);border-radius:999px;
+    padding:11px 22px;cursor:pointer;
+    transition:color .18s,background .18s,border-color .18s;
+  }
+  .ptab:hover{color:var(--text);border-color:rgba(244,114,182,.4)}
+  .ptab[aria-selected="true"]{
+    color:#fff;background:var(--grad);border-color:transparent;
+  }
+  .price-panel{display:grid;grid-template-columns:minmax(280px,4fr) 6fr;gap:clamp(18px,2.6vw,36px);align-items:start}
+  .price-photo{
+    border-radius:20px;overflow:hidden;background:rgba(20,16,49,.55);
+    border:1px solid rgba(168,85,247,.2);
+  }
+  .price-photo img{display:block;width:100%;height:100%;max-height:430px;object-fit:cover}
+  .price-photo figcaption{padding:10px 16px;font-size:12.5px;color:var(--muted)}
+  .price-note{
+    margin:14px 2px 0;font-size:13.5px;color:var(--muted);
+    display:flex;gap:9px;align-items:flex-start;
+  }
+  .price-note svg{width:15px;height:15px;flex:none;margin-top:2px;color:var(--pink);opacity:.9}
+  .accordion{display:grid;gap:12px}
+  .acc-item{
+    background:rgba(20,16,49,.55);border:1px solid rgba(168,85,247,.2);
+    border-radius:16px;overflow:hidden;
+  }
+  .acc-head{
+    width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;
+    background:none;border:none;cursor:pointer;text-align:left;
+    padding:17px 20px;color:var(--text);font-family:'Onest',sans-serif;
+    font-size:16px;font-weight:600;
+  }
+  .acc-head svg{width:19px;height:19px;flex:none;color:var(--violet);transition:transform .25s}
+  .acc-item.open .acc-head svg{transform:rotate(180deg)}
+  .acc-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+  .acc-item.open .acc-body{grid-template-rows:1fr}
+  .acc-body>div{min-height:0;overflow:hidden}
+  .price-row{
+    display:flex;justify-content:space-between;gap:18px;align-items:baseline;
+    padding:14px 20px;border-top:1px solid rgba(168,85,247,.14);
+  }
+  .price-row .p-name{font-weight:600;font-size:15px}
+  .price-row .p-desc{color:var(--muted);font-size:13.5px;margin-top:3px}
+  .price-row .p-val{font-family:'Russo One',sans-serif;font-size:15.5px;white-space:nowrap}
+  .price-row .p-val.tbd{font-family:'Onest',sans-serif;font-size:13px;color:var(--muted);font-weight:500}
+  .price-cta{
+    margin-top:20px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:flex-end;
+  }
+
+  /* ---------- Преображения ---------- */
+  .works{
+    /* full-bleed плашка: текстура платы + мягкое неоновое свечение вместо чёрного */
+    margin:0 calc(50% - 50vw);
+    padding:clamp(40px,5vw,64px) clamp(18px,4vw,54px) clamp(44px,5vw,70px);
+    text-align:center;
+    background:
+      radial-gradient(52% 60% at 28% 42%, rgba(79,124,255,.24), transparent 70%),
+      radial-gradient(52% 60% at 72% 58%, rgba(244,114,182,.18), transparent 70%),
+      linear-gradient(rgba(18,14,42,.38),rgba(18,14,42,.45)),
+      url('assets/hero/texture.jpg') center 35%/cover no-repeat;
+  }
+  .works .section-title{margin-bottom:8px;font-size:clamp(38px,5vw,62px)}
+  .works-sub{color:var(--muted);font-size:15px;margin-bottom:38px}
+  .ba-wrap{position:relative;display:grid;place-items:center}
+  .ba-side{
+    position:absolute;top:50%;z-index:1;
+    width:min(290px,21vw);aspect-ratio:4/5;object-fit:cover;object-position:center 25%;
+    border-radius:22px;transform:translateY(-50%) scale(.9);
+    filter:blur(6px) brightness(.52) saturate(.9);opacity:.85;
+    border:1px solid rgba(168,85,247,.18);pointer-events:none;
+  }
+  .ba-side.left{right:calc(50% + min(330px,36vw))}
+  .ba-side.right{left:calc(50% + min(330px,36vw))}
+  .ba-card{
+    position:relative;z-index:2;width:min(620px,92%);aspect-ratio:4/5;max-height:620px;
+    border-radius:22px;overflow:hidden;user-select:none;touch-action:none;
+    border:1px solid rgba(168,85,247,.25);
+    cursor:ew-resize;
+  }
+  .ba-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;pointer-events:none}
+  .ba-after{clip-path:inset(0 0 0 var(--pos,50%))}
+  .ba-line{
+    position:absolute;top:0;bottom:0;left:var(--pos,50%);width:3px;margin-left:-1.5px;
+    background:linear-gradient(180deg,#4F7CFF,#A855F7,#F472B6);pointer-events:none;
+  }
+  .ba-grip{
+    position:absolute;top:50%;left:var(--pos,50%);transform:translate(-50%,-50%);
+    width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+    background:var(--grad);color:#fff;pointer-events:none;
+    box-shadow:0 8px 24px -6px rgba(122,87,255,.6);
+  }
+  .ba-grip svg{width:20px;height:20px}
+  .ba-label{
+    position:absolute;bottom:14px;font-family:'Russo One',sans-serif;font-size:12.5px;
+    letter-spacing:.08em;color:rgba(244,241,251,.85);
+    background:rgba(10,8,23,.55);padding:5px 13px;border-radius:999px;
+    backdrop-filter:blur(4px);pointer-events:none;
+  }
+  .ba-label.before{left:14px}.ba-label.after{right:14px}
+  .ba-nav{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+    width:64px;height:64px;border-radius:50%;display:grid;place-items:center;
+    background:rgba(20,16,49,.8);border:1px solid rgba(168,85,247,.3);color:var(--text);cursor:pointer;
+    transition:background .18s,border-color .18s,transform .18s;
+  }
+  .ba-nav:hover{background:rgba(122,87,255,.35);border-color:rgba(244,114,182,.5);transform:translateY(-50%) scale(1.07)}
+  .ba-nav svg{width:28px;height:28px}
+  .ba-prev{left:max(8px,calc(50% - 689px))}
+  .ba-next{right:max(8px,calc(50% - 689px))}
+  @media (max-width:1150px){.ba-side{display:none}}
+  .ba-name{margin-top:18px;color:var(--muted);font-size:14.5px;min-height:22px}
+
+  /* ---------- мастера ---------- */
+  .team{
+    margin:0;
+    padding:clamp(40px,5vw,64px) clamp(22px,3vw,48px) clamp(44px,5vw,70px);
+  }
+  .team .section-title{
+    font-size:clamp(26px,2.6vw,44px);line-height:1.14;letter-spacing:.005em;
+    margin-bottom:14px;white-space:nowrap;
+  }
+  .team .section-title em{
+    font-style:normal;
+    background:linear-gradient(92deg,#8FA8FF,#C9A6FF 45%,#F472B6);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .team-sub{color:rgba(244,241,251,.78);font-size:clamp(14.5px,1.25vw,16.5px);max-width:52ch;margin:0 0 clamp(26px,3vw,40px)}
+  .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,28px);max-width:1160px}
+  .team-card{
+    border:1px solid rgba(168,85,247,.22);border-radius:22px;overflow:hidden;
+    background:rgba(20,16,49,.5);
+    transition:border-color .25s,box-shadow .25s,transform .25s;
+  }
+  .team-card:hover{border-color:rgba(244,114,182,.5);box-shadow:0 14px 40px -14px rgba(122,87,255,.5);transform:translateY(-3px)}
+  .team-card img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center 22%;display:block}
+  .team-card .tc-body{padding:16px 18px 18px}
+  .team-card h3{font-family:'Russo One',sans-serif;font-weight:400;font-size:18px;margin-bottom:6px}
+  .team-card .tc-role{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--pink);margin-bottom:8px}
+  .team-card p{color:var(--muted);font-size:13.5px}
+  .rooms{margin-top:clamp(30px,3.5vw,48px)}
+  .rooms h3{font-family:'Russo One',sans-serif;font-weight:400;font-size:19px;margin-bottom:16px}
+  .rooms-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,1.5vw,20px);max-width:1160px}
+  .rooms-grid figure{
+    border-radius:18px;overflow:hidden;border:1px solid rgba(168,85,247,.18);
+    transition:border-color .25s,transform .25s;
+  }
+  .rooms-grid figure:hover{border-color:rgba(244,114,182,.45);transform:translateY(-2px)}
+  .rooms-grid img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;filter:brightness(.85);transition:filter .3s}
+  .rooms-grid figure:hover img{filter:brightness(1)}
+  .team .actions{margin-top:clamp(26px,3vw,42px)}
+
+  /* ---------- отзывы ---------- */
+  .reviews{
+    margin:0;
+    padding:clamp(40px,5vw,64px) clamp(22px,3vw,48px) clamp(44px,5vw,70px);
+  }
+  .reviews .section-title{
+    font-size:clamp(26px,2.6vw,44px);line-height:1.14;letter-spacing:.005em;
+    margin-bottom:14px;white-space:nowrap;
+  }
+  .reviews .section-title em{
+    font-style:normal;
+    background:linear-gradient(92deg,#8FA8FF,#C9A6FF 45%,#F472B6);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .rev-top{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-bottom:clamp(26px,3vw,40px)}
+  .rev-rating{
+    display:inline-flex;align-items:center;gap:10px;
+    border:1px solid rgba(168,85,247,.35);border-radius:999px;padding:8px 18px;
+    background:rgba(79,124,255,.1);font-size:14px;color:var(--text);
+  }
+  .rev-rating .rr-num{font-family:'Russo One',sans-serif;font-size:16px;color:var(--pink)}
+  .rev-rating svg{width:16px;height:16px;color:#FBBF24}
+  .rev-sub{color:rgba(244,241,251,.78);font-size:clamp(14.5px,1.25vw,16.5px);max-width:52ch;margin:0}
+  .rev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(16px,2vw,28px);max-width:1160px}
+  .rev-card{
+    display:flex;flex-direction:column;gap:14px;
+    background:rgba(20,16,49,.5);border:1px solid rgba(168,85,247,.22);
+    border-radius:22px;padding:24px 26px;
+    transition:border-color .25s,box-shadow .25s,transform .25s;
+  }
+  .rev-card:hover{border-color:rgba(244,114,182,.5);box-shadow:0 14px 40px -14px rgba(122,87,255,.5);transform:translateY(-3px)}
+  .rev-card .rev-quote-ic{width:22px;height:22px;color:var(--violet);opacity:.85}
+  .rev-card>p{color:rgba(244,241,251,.86);font-size:14.5px;line-height:1.6;margin:0}
+  .rev-meta{margin-top:auto;display:flex;flex-direction:column;gap:4px}
+  .rev-author{font-weight:600;font-size:14.5px}
+  .rev-src{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--pink)}
+  .reviews .actions{margin-top:clamp(26px,3vw,42px)}
+  .rev-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(22px,2.5vw,34px);max-width:1160px}
+  .rev-links a{
+    display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted);
+    border:1px solid rgba(168,85,247,.25);border-radius:999px;padding:8px 16px;
+    background:rgba(20,16,49,.4);transition:color .18s,border-color .18s;
+  }
+  .rev-links a:hover{color:var(--text);border-color:rgba(244,114,182,.5)}
+  .rev-links a svg{width:14px;height:14px;color:var(--violet)}
+  .rev-gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,1.5vw,20px);max-width:1160px;margin-top:clamp(22px,2.5vw,34px)}
+  .rev-gallery figure{
+    position:relative;border-radius:18px;overflow:hidden;border:1px solid rgba(168,85,247,.18);
+    cursor:pointer;transition:border-color .25s,transform .25s;
+  }
+  .rev-gallery figure:hover{border-color:rgba(244,114,182,.5);transform:translateY(-2px)}
+  .rev-gallery img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;object-position:center 25%}
+  .rev-gallery figcaption{
+    position:absolute;left:10px;bottom:10px;
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:rgba(244,241,251,.92);
+    background:rgba(10,8,23,.55);border:1px solid rgba(168,85,247,.35);border-radius:999px;padding:4px 10px;
+    backdrop-filter:blur(6px);
+  }
+  .rev-gallery figcaption svg{width:12px;height:12px;color:var(--pink)}
+  .rev-gal-note{font-size:12.5px;color:var(--muted);margin:10px 0 0;max-width:1160px}
+  .lb{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;background:rgba(6,4,16,.88);padding:24px}
+  .lb.open{display:flex}
+  .lb img{max-width:min(92vw,860px);max-height:86vh;border-radius:18px;border:1px solid rgba(168,85,247,.4)}
+  .lb-close{
+    position:absolute;top:18px;right:22px;width:46px;height:46px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(20,16,49,.7);border:1px solid rgba(168,85,247,.4);color:var(--text);cursor:pointer;
+  }
+  .lb-close svg{width:20px;height:20px}
+
+  /* ---------- полезное ---------- */
+  .blog{
+    margin:0;
+    padding:clamp(40px,5vw,64px) clamp(22px,3vw,48px) clamp(44px,5vw,70px);
+  }
+  .blog .section-title{
+    font-size:clamp(26px,2.6vw,44px);line-height:1.14;letter-spacing:.005em;
+    margin-bottom:14px;white-space:nowrap;
+  }
+  .blog .section-title em{
+    font-style:normal;
+    background:linear-gradient(92deg,#8FA8FF,#C9A6FF 45%,#F472B6);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .blog-sub{color:rgba(244,241,251,.78);font-size:clamp(14.5px,1.25vw,16.5px);max-width:52ch;margin:0 0 clamp(26px,3vw,40px)}
+  .blog-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,1.5vw,22px);max-width:1160px}
+  .blog-card{
+    display:flex;flex-direction:column;gap:10px;text-align:left;cursor:pointer;
+    background:rgba(20,16,49,.5);border:1px solid rgba(168,85,247,.22);
+    border-radius:18px;padding:20px 20px 18px;font:inherit;color:inherit;
+    transition:border-color .25s,box-shadow .25s,transform .25s;
+  }
+  .blog-card:hover{border-color:rgba(244,114,182,.5);box-shadow:0 14px 40px -14px rgba(122,87,255,.5);transform:translateY(-3px)}
+  .blog-card svg.bc-ic{width:22px;height:22px;color:var(--violet)}
+  .blog-card h3{font-family:'Russo One',sans-serif;font-weight:400;font-size:15.5px;line-height:1.3}
+  .blog-card p{color:var(--muted);font-size:13px;line-height:1.5;margin:0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .blog-card .bc-more{margin-top:auto;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--pink);display:inline-flex;align-items:center;gap:6px}
+  .blog-card .bc-more svg{width:13px;height:13px}
+  /* читалка статьи */
+  .reader{
+    position:fixed;inset:0;z-index:1000;display:none;justify-content:center;
+    background:rgba(6,4,16,.9);padding:24px;
+  }
+  .reader.open{display:flex}
+  .reader-panel{
+    position:relative;max-width:720px;width:100%;align-self:center;max-height:88vh;overflow-y:auto;
+    background:#12102c;border:1px solid rgba(168,85,247,.35);border-radius:22px;
+    padding:clamp(24px,3vw,44px);
+  }
+  .reader-panel h2{font-family:'Russo One',sans-serif;font-weight:400;font-size:clamp(20px,2.4vw,28px);line-height:1.25;margin-bottom:18px;padding-right:48px}
+  .reader-panel .rd-text p{color:rgba(244,241,251,.85);font-size:15px;line-height:1.75;margin:0 0 14px}
+  .reader-panel .rd-text h3{font-family:'Russo One',sans-serif;font-weight:400;font-size:18px;color:#C9A6FF;margin:22px 0 10px}
+  .rd-note{font-size:12.5px;color:var(--muted);border-top:1px solid rgba(168,85,247,.2);padding-top:14px;margin-top:8px}
+
+  /* ---------- запись ---------- */
+  .booking{max-width:1160px;margin:0 auto}
+  .book-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.4vw,32px)}
+  .book-card{
+    background:rgba(20,16,49,.6);border:1px solid rgba(168,85,247,.22);
+    border-radius:22px;padding:30px 34px;
+    display:flex;flex-direction:column;gap:18px;
+  }
+  .book-card h3{font-family:'Russo One',sans-serif;font-weight:400;font-size:19px}
+  .book-line{
+    display:flex;align-items:center;gap:12px;color:var(--muted);font-size:15px;
+  }
+  .book-line svg{width:17px;height:17px;flex:none;color:var(--violet)}
+  .book-line a{transition:color .18s}
+  .book-line a:hover{color:var(--text)}
+  .book-line .strong{font-family:'Russo One',sans-serif;font-size:17px;color:var(--text)}
+  .msg-row{display:flex;gap:12px;margin-top:6px}
+  .msg-btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:48px;height:48px;border-radius:50%;
+    background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.3);color:var(--text);
+    transition:background .18s,border-color .18s,transform .18s;
+  }
+  .msg-btn:hover{background:rgba(122,87,255,.28);border-color:rgba(244,114,182,.5);transform:translateY(-2px)}
+  .msg-btn svg{width:20px;height:20px}
+  .bonus-chip{
+    display:inline-flex;align-items:center;gap:9px;align-self:flex-start;
+    font-size:13.5px;color:var(--text);
+    border:1px solid rgba(168,85,247,.35);border-radius:999px;padding:8px 16px;
+    background:rgba(79,124,255,.1);
+  }
+  .bonus-chip svg{width:15px;height:15px;color:var(--pink)}
+
+  /* ---------- футер ---------- */
+  .footer{
+    margin-top:clamp(40px,6vw,90px);
+    border-top:1px solid rgba(168,85,247,.16);
+    padding:26px clamp(18px,4vw,54px) 34px;
+    display:flex;flex-wrap:wrap;gap:12px 30px;align-items:center;
+    color:var(--muted);font-size:13.5px;
+  }
+  .footer a{transition:color .18s}
+  .footer a:hover{color:var(--text)}
+  .footer .f-brand{font-family:'Russo One',sans-serif;font-size:15px}
+
+  /* ---------- курсор ---------- */
+  .cursor-dot,.cursor-ring{display:none}
+  @media (hover:hover) and (pointer:fine){
+    .cursor-dot,.cursor-ring{
+      display:block;position:fixed;top:0;left:0;z-index:999;pointer-events:none;
+      border-radius:50%;will-change:transform;
+    }
+    .cursor-dot{width:6px;height:6px;background:#fff;mix-blend-mode:difference}
+    .cursor-ring{
+      width:34px;height:34px;border:1.5px solid transparent;
+      background:conic-gradient(from 0deg,#4F7CFF,#A855F7,#F472B6,#4F7CFF) border-box;
+      -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 1.5px),#000 calc(100% - 1.5px));
+              mask:radial-gradient(farthest-side,transparent calc(100% - 1.5px),#000 calc(100% - 1.5px));
+      opacity:.85;
+    }
+    body.custom-cursor,body.custom-cursor a,body.custom-cursor button,body.custom-cursor video{cursor:none}
+  }
+
+  /* ---------- вход ---------- */
+  .rise{opacity:0;transform:translateY(22px)}
+  @media (prefers-reduced-motion:no-preference){
+    .rise{animation:rise .9s cubic-bezier(.16,1,.3,1) forwards}
+    .rise.d1{animation-delay:.12s}.rise.d2{animation-delay:.22s}
+    .rise.d3{animation-delay:.32s}.rise.d4{animation-delay:.42s}
+    @keyframes rise{to{opacity:1;transform:none}}
+    .brand{animation:flow 7s linear infinite}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .rise{opacity:1;transform:none}
+    .brand{animation:none;background:none;color:#C9A6FF;-webkit-text-fill-color:#C9A6FF}
+  }
+
+  /* ---------- адаптив ---------- */
+  @media (max-width:1023px){
+    .layout{grid-template-columns:1fr}
+    .sidebar{display:none}
+    .hero-stage{height:auto;min-height:0}
+    .topbar{
+      display:flex;position:sticky;top:0;z-index:50;
+      align-items:center;gap:14px;
+      padding:14px 18px;border-bottom:1px solid rgba(168,85,247,.16);
+      background:rgba(10,8,23,.82);backdrop-filter:blur(10px);
+    }
+    .topbar .logo{font-size:19px}
+    .topbar .phone{margin-left:auto;font-family:'Russo One',sans-serif;font-size:13.5px;color:var(--muted)}
+    .burger{
+      display:inline-flex;flex-direction:column;justify-content:center;gap:5px;
+      width:42px;height:42px;padding:0 10px;background:none;border:1px solid var(--line);border-radius:12px;
+    }
+    .burger span{display:block;height:1.6px;background:var(--text);transition:transform .2s,opacity .2s}
+    .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6.6px) rotate(45deg)}
+    .burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+    .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6.6px) rotate(-45deg)}
+    .mobile-menu{
+      display:grid;grid-template-rows:0fr;overflow:hidden;
+      transition:grid-template-rows .3s ease;
+    }
+    .mobile-menu .mm-inner{min-height:0;overflow:hidden;display:grid;gap:4px}
+    .mobile-menu.open{grid-template-rows:1fr;background:rgba(10,8,23,.94)}
+    .mobile-menu.open .mm-inner{padding-bottom:14px;border-bottom:1px solid rgba(168,85,247,.16)}
+    .mobile-menu a{padding:11px 18px;font-size:16px;font-weight:500;color:var(--muted)}
+    .mobile-menu a:hover{color:var(--text)}
+    .mobile-menu .mm-contact{padding:11px 18px 0;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+    .hero-video video{height:clamp(240px,52vw,420px)}
+    .why-grid{grid-template-columns:1fr;gap:22px}
+  .why-media .ga-stage{margin-left:0}
+  .why-list{grid-template-columns:1fr}
+    .price-panel{grid-template-columns:1fr}
+    .price-photo img{max-height:300px}
+    .book-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <a class="logo brand" href="#top">ГрумАрт</a>
+    <p class="logo-sub">студия груминга · Ульяновск</p>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="#services"><i data-lucide="scissors"></i>Услуги и цены</a>
+      <a href="#works"><i data-lucide="sparkles"></i>Преображения</a>
+      <a href="#masters"><i data-lucide="heart-handshake"></i>Мастера</a>
+      <a href="#reviews"><i data-lucide="message-circle"></i>Отзывы</a>
+      <a href="#booking"><i data-lucide="calendar-check"></i>Записаться</a>
+      <a href="#articles"><i data-lucide="book-open"></i>Полезное</a>
+    </nav>
+    <div class="side-contacts">
+      <div class="row"><i data-lucide="map-pin"></i><span>ул. Аблукова, 20,<br>вход со стороны набережной</span></div>
+      <div class="row"><i data-lucide="clock"></i><span>ежедневно 9:00–20:00</span></div>
+      <div class="row"><i data-lucide="phone"></i><a class="side-phone" href="tel:+79953359935">+7 (995) 335-99-35</a></div>
+    </div>
+  </aside>
+
+  <main id="top">
+    <div class="topbar">
+      <button class="burger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+      <span class="logo brand">ГрумАрт</span>
+      <a class="phone" href="tel:+79953359935">+7 (995) 335-99-35</a>
+    </div>
+    <nav class="mobile-menu" id="mobile-menu" aria-label="Мобильная навигация">
+      <div class="mm-inner">
+        <a href="#services">Услуги и цены</a>
+        <a href="#works">Преображения</a>
+        <a href="#masters">Мастера</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#booking">Записаться</a>
+        <a href="#articles">Полезное</a>
+        <div class="mm-contact">
+          <span>ул. Аблукова, 20 · ежедневно 9:00–20:00</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- hero: видео во всю ширину, текст поверх в тихой зоне слева-внизу -->
+    <div class="hero-stage">
+      <header class="hero-video">
+        <video autoplay muted loop playsinline preload="metadata" poster="assets/hero/dog-poster.jpg"
+               aria-label="Ши-тцу с розовым бантом и логотип студии ГрумАрт в неоновой подсветке">
+          <source src="assets/hero/dog-pingpong.mp4" type="video/mp4">
+        </video>
+      </header>
+
+      <section class="hero" aria-label="О студии">
+        <h1 class="rise">Груминг, после которого <em>хвост виляет</em></h1>
+        <p class="lead rise d1">Стрижка собак и кошек в Ульяновске — <b>без стресса и жёсткой фиксации</b>. Гипоаллергенная косметика, паузы, когда питомцу нужно передохнуть, и честная цена до начала работы.</p>
+        <div class="actions rise d2">
+          <a class="btn btn-primary" href="https://dikidi.net/1830217" target="_blank" rel="noopener"><i data-lucide="paw-print"></i>Записать питомца</a>
+          <a class="btn btn-ghost" href="#services"><i data-lucide="tag"></i>Смотреть цены</a>
+        </div>
+      </section>
+    </div>
+
+    <!-- почему мы -->
+    <section class="section why" id="why" aria-label="Почему мы">
+      <div class="why-grid">
+        <div>
+          <h2 class="section-title">Подход <em>ГрумАрт</em></h2>
+          <p class="why-note">Мы работаем не на поток, а на результат, который измеряется вилянием хвоста.</p>
+          <div class="why-list">
+          <div class="why-item">
+            <i data-lucide="feather"></i>
+            <div>
+              <h3>Без стресса и жёсткой фиксации</h3>
+              <p>Мастер читает язык тела питомца и делает паузы, когда нужно передохнуть. Никаких удавок — только спокойный темп и доверие.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <i data-lucide="leaf"></i>
+            <div>
+              <h3>Гипоаллергенные средства</h3>
+              <p>Качественная косметика, безопасная для кожи и шерсти. Вы всегда знаете, чем моют вашего питомца.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <i data-lucide="stethoscope"></i>
+            <div>
+              <h3>Внимательный осмотр</h3>
+              <p>Кожа, уши, лапы — смотрим состояние, а не только стрижку. О найденных проблемах честно расскажем.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <i data-lucide="scale"></i>
+            <div>
+              <h3>Честная цена до начала работы</h3>
+              <p>Стоимость известна до стрижки и не меняется в процессе. Никаких сюрпризов на кассе.</p>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="why-media">
+          <div class="ga-stage" id="ga-stage" aria-label="Галерея питомцев"></div>
+        </div>
+      </div>
+      <div class="actions why-actions">
+        <a class="btn btn-primary" href="https://dikidi.net/1830217" target="_blank" rel="noopener"><i data-lucide="paw-print"></i>Записать питомца</a>
+        <a class="btn btn-ghost" href="#services"><i data-lucide="tag"></i>Смотреть цены</a>
+      </div>
+    </section>
+
+    <!-- услуги и цены -->
+    <section class="section prices" id="services" aria-label="Услуги и цены">
+      <h2 class="section-title">Услуги и <em>цены</em></h2>
+      <div class="price-tabs" role="tablist" aria-label="Вид услуги">
+        <button class="ptab" role="tab" aria-selected="true" data-size="complex">Комплекс</button>
+        <button class="ptab" role="tab" aria-selected="false" data-size="hygiene">Гигиена</button>
+        <button class="ptab" role="tab" aria-selected="false" data-size="shedding">Экспресс-линька</button>
+        <button class="ptab" role="tab" aria-selected="false" data-size="extra">Услуги</button>
+      </div>
+
+      <div class="price-panel">
+        <figure class="price-photo">
+          <img id="price-img" src="assets/price/Golden_cocker_spaniel.jpg" alt="Спаниель после груминга">
+          <figcaption id="price-cap">Комплекс груминга</figcaption>
+        </figure>
+
+        <div>
+          <div class="accordion" id="price-acc">
+            <!-- заполняется скриптом -->
+          </div>
+          <p class="price-note"><i data-lucide="info"></i><span>Рекомендуем гигиенический уход раз в месяц, а полный комплекс — раз в два-три месяца: так шерсть остаётся здоровой между стрижками. Информация о ценах не является публичной офертой.</span></p>
+          <div class="price-cta">
+            <a class="btn btn-primary" href="https://dikidi.net/1830217" target="_blank" rel="noopener"><i data-lucide="paw-print"></i>Записать питомца</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- преображения -->
+    <section class="section works" id="works" aria-label="Преображения">
+      <h2 class="section-title">Преображения</h2>
+      <p class="works-sub">Тяните шторку — увидите, что делает одна стрижка</p>
+      <div class="ba-wrap">
+        <img class="ba-side left" id="ba-side-l" alt="" aria-hidden="true">
+        <img class="ba-side right" id="ba-side-r" alt="" aria-hidden="true">
+        <button class="ba-nav ba-prev" aria-label="Предыдущее преображение"><i data-lucide="chevron-left"></i></button>
+        <div class="ba-card" id="ba-card" aria-label="Слайдер до и после">
+          <img class="ba-before" id="ba-before" src="assets/works/dog1-before.jpg" alt="Питомец до стрижки">
+          <img class="ba-after" id="ba-after" src="assets/works/dog1-after.jpg" alt="Питомец после стрижки">
+          <div class="ba-line"></div>
+          <div class="ba-grip"><i data-lucide="chevrons-left-right"></i></div>
+          <span class="ba-label before">До</span>
+          <span class="ba-label after">После</span>
+        </div>
+        <button class="ba-nav ba-next" aria-label="Следующее преображение"><i data-lucide="chevron-right"></i></button>
+      </div>
+      <p class="ba-name" id="ba-name"></p>
+      <div class="actions" style="justify-content:center;margin-top:20px">
+        <a class="btn btn-primary" href="https://dikidi.net/1830217" target="_blank" rel="noopener"><i data-lucide="paw-print"></i>Записать питомца</a>
+      </div>
+    </section>
+
+    <!-- мастера -->
+    <section class="section team" id="masters" aria-label="Мастера">
+      <h2 class="section-title">Наши <em>мастера</em></h2>
+      <p class="team-sub">За каждым преображением — руки, которые любят собак и кошек и знают о груминге всё.</p>
+      <div class="team-grid">
+        <div class="team-card">
+          <img src="assets/team/iya.jpg" alt="Мастер груминга Ия с собакой">
+          <div class="tc-body">
+            <h3>Ия</h3>
+            <div class="tc-role">Мастер груминга</div>
+            <p>Работает и с собаками, и с кошками. Находит подход даже к самым осторожным питомцам.</p>
+          </div>
+        </div>
+        <div class="team-card">
+          <img src="assets/team/sofia.jpg" alt="Мастер груминга София с собакой">
+          <div class="tc-body">
+            <h3>София</h3>
+            <div class="tc-role">Мастер груминга</div>
+            <p>Аккуратные стрижки и внимательный уход. Расскажет, как поддерживать форму между визитами.</p>
+          </div>
+        </div>
+        <div class="team-card">
+          <img src="assets/team/alina.jpg" alt="Управляющая студией Алина с кошкой">
+          <div class="tc-body">
+            <h3>Алина</h3>
+            <div class="tc-role">Управляющая студией</div>
+            <p>Отвечает за запись и комфорт: подберёт мастера и время, решит любой вопрос.</p>
+          </div>
+        </div>
+      </div>
+      <div class="rooms">
+        <h3>Наши рабочие места</h3>
+        <div class="rooms-grid">
+          <figure><img src="assets/rooms/room1.jpg" alt="Рабочее место мастера"></figure>
+          <figure><img src="assets/rooms/room2.jpg" alt="Рабочее место мастера"></figure>
+          <figure><img src="assets/rooms/room3.jpg" alt="Рабочее место мастера"></figure>
+          <figure><img src="assets/rooms/room4.jpg" alt="Рабочее место мастера"></figure>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://dikidi.net/1830217" target="_blank" rel="noopener"><i data-lucide="paw-print"></i>Записать питомца</a>
+      </div>
+    </section>
+
+    <!-- отзывы: реальные цитаты с 2ГИС и DiKidi; имена авторов DiKidi не публикуются платформой -->
+    <section class="section reviews" id="reviews" aria-label="Отзывы">
+      <h2 class="section-title">Отзывы <em>питомцев</em> и их людей</h2>
+      <div class="rev-top">
+        <span class="rev-rating"><i data-lucide="star"></i><span class="rr-num">5,0</span>на Яндекс Картах, 2ГИС и DiKidi</span>
+        <p class="rev-sub">157 отзывов на Яндекс Картах и награда «Хорошее место 2026». Настоящие слова клиентов — без прикрас.</p>
+      </div>
+      <div class="rev-grid">
+        <div class="rev-card">
+          <i class="rev-quote-ic" data-lucide="quote"></i>
+          <p>Хвалю персонал и чистоту. После груминга шерсть стала невероятно мягкой и ухоженной!</p>
+          <div class="rev-meta"><span class="rev-author">Vladislava</span><span class="rev-src">Яндекс Карты · закреплённый</span></div>
+        </div>
+        <div class="rev-card">
+          <i class="rev-quote-ic" data-lucide="quote"></i>
+          <p>Первый груминг у нас — присылали фото и видео с каждого этапа, очень переживала, а теперь спокойна. И цены невысокие.</p>
+          <div class="rev-meta"><span class="rev-author">Анастасия Ч.</span><span class="rev-src">Яндекс Карты</span></div>
+        </div>
+        <div class="rev-card">
+          <i class="rev-quote-ic" data-lucide="quote"></i>
+          <p>Приняли в тот же день — в других салонах запись через неделю. После стрижки ещё и духи предложили. Очень приятно!</p>
+          <div class="rev-meta"><span class="rev-author">Варвара</span><span class="rev-src">Яндекс Карты</span></div>
+        </div>
+        <div class="rev-card">
+          <i class="rev-quote-ic" data-lucide="quote"></i>
+          <p>Кот у нас тревожный, боялась идти. Дали время на адаптацию, никуда не торопились — всё прошло спокойно. Спасибо!</p>
+          <div class="rev-meta"><span class="rev-author">Анна К.</span><span class="rev-src">Яндекс Карты</span></div>
+        </div>
+        <div class="rev-card">
+          <i class="rev-quote-ic" data-lucide="quote"></i>
+          <p>Двух йорков взяли одновременно — сэкономили нам время. И цена ниже, чем в других салонах.</p>
+          <div class="rev-meta"><span class="rev-author">Наталья</span><span class="rev-src">Яндекс Карты</span></div>
+        </div>
+        <div class="rev-card">
+          <i class="rev-quote-ic" data-lucide="quote"></i>
+          <p>Мастер нашла подход к коту и дала советы по домашнему уходу за шерстью. Придём ещё!</p>
+          <div class="rev-meta"><span class="rev-author">Татьяна</span><span class="rev-src">Яндекс Карты</span></div>
+        </div>
+        <div class="rev-card">
+          <i class="rev-quote-ic" data-lucide="quote"></i>
+          <p>Большое спасибо за работу! Мастер очень вежливый и приветливый, нашёл подход к собаке. Стрижка идеальная, шерсть — шёлк.</p>
+          <div class="rev-meta"><span class="rev-author">Надежда</span><span class="rev-src">2ГИС</span></div>
+        </div>
+        <div class="rev-card">
+          <i class="rev-quote-ic" data-lucide="quote"></i>
+          <p>Очень понравился этот груминг-салон! Персонал приятный и доброжелательный, в салоне чисто и уютно. Работу выполнили отлично.</p>
+          <div class="rev-meta"><span class="rev-author">Клиент студии</span><span class="rev-src">DiKidi</span></div>
+        </div>
+      </div>
+      <div class="rev-links">
+        <a href="https://yandex.ru/maps/org/grumart/140011513459/reviews/" target="_blank" rel="noopener"><i data-lucide="map-pin"></i>Все 157 отзывов на Яндекс Картах</a>
+        <a href="https://2gis.ru/ulyanovsk/firm/70000001102932394/tab/reviews" target="_blank" rel="noopener"><i data-lucide="map-pin"></i>Отзывы в 2ГИС</a>
+        <a href="https://dikidi.net/1830217" target="_blank" rel="noopener"><i data-lucide="map-pin"></i>Отзывы на DiKidi</a>
+      </div>
+      <div class="rev-gallery" aria-label="Фото из отзывов клиентов">
+        <figure tabindex="0" role="button" aria-label="Открыть фото: корги после экспресс-линьки">
+          <img src="assets/reviews/r1-corgi-linenka.jpg" alt="Корги на столе после экспресс-линьки — рядом вычесанная шерсть" loading="lazy">
+          <figcaption><i data-lucide="image"></i>отзыв</figcaption>
+        </figure>
+        <figure tabindex="0" role="button" aria-label="Открыть фото: такса в ванне">
+          <img src="assets/reviews/r2-takscha-vanna.jpg" alt="Такса в ванне с пеной — купание в студии" loading="lazy">
+          <figcaption><i data-lucide="image"></i>отзыв</figcaption>
+        </figure>
+        <figure tabindex="0" role="button" aria-label="Открыть фото: корги во время купания">
+          <img src="assets/reviews/r3-corgi-vanna.jpg" alt="Радостный корги во время купания с шампунем" loading="lazy">
+          <figcaption><i data-lucide="image"></i>отзыв</figcaption>
+        </figure>
+        <figure tabindex="0" role="button" aria-label="Открыть фото: щенок после купания">
+          <img src="assets/reviews/r4-posle-kupaniya.jpg" alt="Щенок завёрнут в полотенце после купания" loading="lazy">
+          <figcaption><i data-lucide="image"></i>отзыв</figcaption>
+        </figure>
+        <figure tabindex="0" role="button" aria-label="Открыть фото: мейн-кун после вычёсывания">
+          <img src="assets/reviews/r5-meyn-kun.jpg" alt="Мейн-кун после вычёсывания и экспресс-линьки" loading="lazy">
+          <figcaption><i data-lucide="image"></i>отзыв</figcaption>
+        </figure>
+        <figure tabindex="0" role="button" aria-label="Открыть фото: кот в сушильной боксе">
+          <img src="assets/reviews/r6-sushilka-petkit.jpg" alt="Кот в современной сушильной боксе после мытья" loading="lazy">
+          <figcaption><i data-lucide="image"></i>отзыв</figcaption>
+        </figure>
+        <figure tabindex="0" role="button" aria-label="Открыть фото: персидский кот после линьки">
+          <img src="assets/reviews/r7-persidskiy-kot.jpg" alt="Персидский кот после экспресс-линьки — рядом вычесанная шерсть" loading="lazy">
+          <figcaption><i data-lucide="image"></i>отзыв</figcaption>
+        </figure>
+        <figure tabindex="0" role="button" aria-label="Открыть фото: мальтипу после стрижки">
+          <img src="assets/reviews/r8-maltipu.jpg" alt="Мальтипу после комплексного груминга" loading="lazy">
+          <figcaption><i data-lucide="image"></i>отзыв</figcaption>
+        </figure>
+      </div>
+      <p class="rev-gal-note">Фотографии прислали сами клиенты в отзывах на Яндекс Картах. Спасибо, что делитесь результатом!</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://dikidi.net/1830217" target="_blank" rel="noopener"><i data-lucide="paw-print"></i>Записать питомца</a>
+      </div>
+    </section>
+
+    <!-- запись -->
+    <section class="section booking" id="booking" aria-label="Записаться">
+      <h2 class="section-title" style="margin-bottom:26px">Записаться</h2>
+      <div class="book-grid">
+        <div class="book-card">
+          <h3>Позвоните или напишите</h3>
+          <div class="book-line"><i data-lucide="phone"></i><a class="strong" href="tel:+79953359935">+7 (995) 335-99-35</a></div>
+          <p class="book-line" style="font-size:13.5px">Ответим на вопросы, подберём мастера и время — ежедневно с 9:00 до 20:00.</p>
+          <div class="msg-row">
+            <a class="msg-btn" href="https://t.me/groomart73" target="_blank" rel="noopener" aria-label="Telegram"><i data-lucide="send"></i></a>
+            <a class="msg-btn" href="https://vk.com/groomart73" target="_blank" rel="noopener" aria-label="ВКонтакте"><i data-lucide="at-sign"></i></a>
+            <a class="msg-btn" href="tel:+79953359935" aria-label="Позвонить"><i data-lucide="phone"></i></a>
+          </div>
+          <span class="bonus-chip"><i data-lucide="gift"></i>5% с каждой процедуры возвращается бонусами</span>
+        </div>
+        <div class="book-card">
+          <h3>Онлайн-запись</h3>
+          <p class="book-line" style="font-size:14px">Выберите услугу и удобное время сами — подтверждение придёт сразу.</p>
+          <div>
+            <a class="btn btn-primary" href="https://dikidi.net/1830217" target="_blank" rel="noopener"><i data-lucide="paw-print"></i>Записать питомца</a>
+          </div>
+          <div class="book-line" style="margin-top:8px"><i data-lucide="map-pin"></i><span>ул. Аблукова, 20 — вход со стороны набережной</span></div>
+          <div class="book-line"><i data-lucide="clock"></i><span>ежедневно 9:00–20:00, без выходных</span></div>
+          <div class="book-line"><i data-lucide="external-link"></i><a href="https://2gis.ru/ulyanovsk/firm/70000001102932394" target="_blank" rel="noopener">Открыть в 2ГИС</a></div>
+        </div>
+      </div>
+    </section>
+
+<!--FOOTER-HERE-->
+
+    <!-- полезное: статьи из «Блог/*.docx», вставлены как есть до чистки -->
+    <section class="section blog" id="articles" aria-label="Полезное">
+      <h2 class="section-title">Полезное <em>о питомцах</em></h2>
+      <p class="blog-sub">Короткие и понятные материалы от мастеров студии: как ухаживать между визитами, заметить проблему заранее и не навредить.</p>
+      <div class="blog-grid" id="blog-grid"></div>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://dikidi.net/1830217" target="_blank" rel="noopener"><i data-lucide="paw-print"></i>Записать питомца</a>
+      </div>
+    </section>
+
+    <footer class="footer" id="contacts">
+      <span class="f-brand">ГрумАрт</span>
+      <span>студия груминга, Ульяновск · ул. Аблукова, 20</span>
+      <a href="https://dikidi.net/1830217" target="_blank" rel="noopener">Онлайн-запись</a>
+      <a href="https://t.me/groomart73" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://vk.com/groomart73" target="_blank" rel="noopener">ВКонтакте</a>
+      <span>© 2025</span>
+    </footer>
+  </main>
+</div>
+
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Просмотр фото отзыва" hidden>
+  <button class="lb-close" id="lb-close" aria-label="Закрыть"><i data-lucide="x"></i></button>
+  <img id="lb-img" src="" alt="Фото из отзыва клиента">
+</div>
+
+<div class="reader" id="reader" role="dialog" aria-modal="true" aria-label="Чтение статьи" hidden>
+  <div class="reader-panel">
+    <button class="lb-close" id="rd-close" aria-label="Закрыть статью" style="position:absolute;top:16px;right:16px"><i data-lucide="x"></i></button>
+    <h2 id="rd-title"></h2>
+    <div class="rd-text" id="rd-text"></div>
+    <p class="rd-note">Материал студии ГрумАрт. Не заменяет консультацию ветеринара.</p>
+  </div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>
+  lucide.createIcons();
+
+  // ===== цены: данные и табы =====
+  // Прайс от Алины (грум цены.txt, «Обновлено 5 сентября 2025»).
+  // Старые VK-цены (для сверки с Алиной): хин комплекс 1 550–1 750 ₽,
+  // булли комплекс 2 000–2 600 ₽, стафф/питбуль 2 600–3 000 ₽.
+  const PRICE_DATA = {
+    complex: {
+      img: 'assets/price/Golden_cocker_spaniel.jpg',
+      alt: 'Спаниель после комплексного груминга',
+      cap: 'Комплекс груминга',
+      groups: [
+        { title: 'Собаки', rows: [
+          { name: 'Спаниэль', val: '2 400 ₽' },
+          { name: 'Французский бульдог', val: '1 600 ₽' },
+          { name: 'Пудель малый (до 45 см)', val: '2 400 ₽' },
+          { name: 'Джек-рассел-терьер', val: '1 500 ₽' },
+          { name: 'Вест-хайленд-уайт-терьер', val: '2 800 ₽' },
+          { name: 'Сиба-ину', val: '1 600 ₽' },
+          { name: 'Чихуахуа длинношёрстная', val: '1 400 ₽' },
+          { name: 'Чау-чау', val: '2 700 ₽' },
+          { name: 'Той-терьер короткошёрстный', val: '1 200 ₽' },
+          { name: 'Пекинес (короткая шерсть)', val: '1 500 ₽' },
+          { name: 'Пекинес (длинная шерсть)', val: '2 000 ₽' },
+          { name: 'Корги', val: '2 000 ₽' },
+          { name: 'Мальтипу', val: '2 400 ₽' },
+          { name: 'Японский хин', val: '1 500 ₽' },
+          { name: 'Йоркширский терьер', val: '1 800 ₽' },
+          { name: 'Шпиц', val: '2 000 ₽' },
+          { name: 'Ши-тцу', val: '1 800 ₽' },
+          { name: 'Такса', val: 'от 1 600 ₽' },
+          { name: 'Мопс', val: 'от 1 500 ₽' },
+          { name: 'Папийон / фален', val: 'от 1 700 ₽' },
+        ]},
+        { title: 'Породы по весу', rows: [
+          { name: 'Средние породы (15–20 кг)', val: '2 400 ₽' },
+          { name: 'Крупные породы (20–40 кг)', val: '3 600 ₽' },
+          { name: 'Крупные породы (от 40 кг)', val: '3 600 ₽' },
+          { name: 'Американский булли', val: 'уточняйте' },
+          { name: 'Ам. стафф / питбуль', val: 'уточняйте' },
+        ]},
+        { title: 'Кошки', rows: [
+          { name: 'Кошки короткошёрстные', val: '1 900 ₽' },
+          { name: 'Кошки длинношёрстные', val: '2 100 ₽' },
+        ]},
+      ],
+    },
+    hygiene: {
+      img: 'assets/price/Yorkshire_Terrier.jpg',
+      alt: 'Йоркширский терьер после гигиенического груминга',
+      cap: 'Гигиенический груминг',
+      groups: [
+        { title: 'Собаки', rows: [
+          { name: 'Йоркширский терьер', val: '1 400 ₽' },
+          { name: 'Мальтипу', val: '1 700 ₽' },
+          { name: 'Корги', val: '1 600 ₽' },
+          { name: 'Папийон / фален', val: '1 400 ₽' },
+          { name: 'Вест-хайленд-уайт-терьер', val: '1 600 ₽' },
+          { name: 'Шпиц', val: '1 500 ₽' },
+          { name: 'Спаниэль', val: '1 500 ₽' },
+          { name: 'Американский булли', val: 'от 1 800 ₽' },
+          { name: 'Японский хин', val: 'от 1 400 ₽' },
+          { name: 'Ши-тцу', val: 'от 1 200 ₽' },
+          { name: 'Мальтезе', val: 'от 1 700 ₽' },
+        ]},
+        { title: 'Кошки', rows: [
+          { name: 'Гигиена кошки', val: '300 ₽' },
+        ]},
+      ],
+    },
+    shedding: {
+      img: 'assets/price/Husky_puppy.jpg',
+      alt: 'Собака после экспресс-линьки',
+      cap: 'Экспресс-линька',
+      groups: [
+        { title: 'Экспресс-линька', rows: [
+          { name: 'Чихуахуа', val: '1 900 ₽' },
+          { name: 'Сиба-ину', val: '2 000 ₽' },
+          { name: 'Такса', val: '1 900 ₽' },
+          { name: 'Мопс', val: '1 800 ₽' },
+          { name: 'Корги', val: '2 100 ₽' },
+          { name: 'Американский булли', val: '2 400 ₽' },
+          { name: 'Французский бульдог', val: 'от 2 000 ₽' },
+          { name: 'Кошки короткошёрстные', val: '2 100 ₽' },
+          { name: 'Кошки длинношёрстные', val: '2 400 ₽' },
+        ]},
+      ],
+    },
+    extra: {
+      img: 'assets/price/Pomeranian.jpg',
+      alt: 'Шпиц на процедуре груминга',
+      cap: 'Уход и процедуры',
+      groups: [
+        { title: 'Кошки', rows: [
+          { name: 'Вычес кота (30 минут)', val: '700 ₽' },
+          { name: 'Стрижка под машинку', val: '1 500 ₽' },
+          { name: 'Первичный визит', val: '850 ₽' },
+        ]},
+        { title: 'Собаки', rows: [
+          { name: 'Стрижка под машинку (спаниэль)', val: '2 400 ₽' },
+        ]},
+        { title: 'Щенки (до 6 месяцев)', rows: [
+          { name: 'Приучение к грумингу, до 5 кг', val: '1 100 ₽' },
+          { name: 'Приучение к грумингу, более 5 кг', val: '1 300 ₽' },
+        ]},
+        { title: 'Уход и SPA', rows: [
+          { name: 'SPA + озонотерапия', val: '2 400 ₽' },
+          { name: 'Маска для шерсти', val: 'от 300 ₽' },
+          { name: 'Комплекс «Уши, зубы, когти»', val: '600 ₽' },
+        ]},
+        { title: 'Мелкие процедуры', rows: [
+          { name: 'Чистка ушей', val: '250 ₽' },
+          { name: 'Стрижка когтей', val: '200 ₽' },
+          { name: 'Стрижка когтей + круглые коготочки', val: '300 ₽' },
+          { name: 'Круглые коготочки', val: '100 ₽' },
+          { name: 'Дополнительный вычес подшерстка (10 мин)', val: '100 ₽' },
+          { name: 'Разбор колтунов (10 мин)', val: '150 ₽' },
+          { name: 'Разбор колтунов', val: '600 ₽' },
+          { name: 'ГрумЛап', val: '450 ₽' },
+          { name: 'Ожидание владельца (от 50 минут)', val: '250 ₽' },
+        ]},
+      ],
+    },
+  };
+
+  const accEl = document.getElementById('price-acc');
+  const priceImg = document.getElementById('price-img');
+  const priceCap = document.getElementById('price-cap');
+
+  function renderPrices(key) {
+    const d = PRICE_DATA[key];
+    priceImg.src = d.img;
+    priceImg.alt = d.alt;
+    priceCap.textContent = d.cap;
+    accEl.innerHTML = d.groups.map((g, gi) => `
+      <div class="acc-item ${gi === 0 ? 'open' : ''}">
+        <button class="acc-head" aria-expanded="${gi === 0}">
+          <span>${g.title}</span><i data-lucide="chevron-down"></i>
+        </button>
+        <div class="acc-body"><div>
+          ${g.rows.map(r => `
+            <div class="price-row">
+              <div><div class="p-name">${r.name}</div></div>
+              <span class="p-val ${r.val === 'уточняйте' ? 'tbd' : ''}">${r.val}</span>
+            </div>`).join('')}
+        </div></div>
+      </div>`).join('');
+    lucide.createIcons();
+    accEl.querySelectorAll('.acc-head').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.acc-item');
+        const open = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open);
+      });
+    });
+  }
+  renderPrices('complex');
+
+  document.querySelectorAll('.ptab').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.ptab').forEach(x => x.setAttribute('aria-selected', 'false'));
+      t.setAttribute('aria-selected', 'true');
+      renderPrices(t.dataset.size);
+    });
+  });
+
+  // ===== Преображения: слайдер до/после =====
+  const WORKS = [
+    { name: 'Ши-тцу — полный комплекс', b: 'assets/works/dog1-before.jpg', a: 'assets/works/dog1-after.jpg' },
+    { name: 'Мальтезе — стрижка и гигиена', b: 'assets/works/dog2-before.jpg', a: 'assets/works/dog2-after.jpg' },
+    { name: 'Собака — комплексный уход', b: 'assets/works/dog3-before.jpg', a: 'assets/works/dog3-after.jpg' },
+    { name: 'Кошка — комплекс со стрижкой', b: 'assets/works/cat1-before.jpg', a: 'assets/works/cat1-after.jpg' },
+    { name: 'Кошка — уход за шерстью', b: 'assets/works/cat2-before.jpg', a: 'assets/works/cat2-after.jpg' },
+    { name: 'Кошка — аккуратная стрижка', b: 'assets/works/cat3-before.jpg', a: 'assets/works/cat3-after.jpg' },
+  ];
+  const card = document.getElementById('ba-card');
+  const baB = document.getElementById('ba-before');
+  const baA = document.getElementById('ba-after');
+  const baName = document.getElementById('ba-name');
+  const sideL = document.getElementById('ba-side-l');
+  const sideR = document.getElementById('ba-side-r');
+  let wIdx = 0;
+
+  function setPos(p) {
+    p = Math.max(2, Math.min(98, p));
+    card.style.setProperty('--pos', p + '%');
+  }
+  function showWork(i) {
+    wIdx = (i + WORKS.length) % WORKS.length;
+    const w = WORKS[wIdx];
+    baB.src = w.b; baA.src = w.a;
+    baName.textContent = w.name;
+    sideL.src = WORKS[(wIdx - 1 + WORKS.length) % WORKS.length].a;
+    sideR.src = WORKS[(wIdx + 1) % WORKS.length].b;
+    setPos(50);
+  }
+
+  let dragging = false;
+  const posFromEvent = e => {
+    const r = card.getBoundingClientRect();
+    return ((e.clientX - r.left) / r.width) * 100;
+  };
+  card.addEventListener('pointerdown', e => {
+    dragging = true;
+    card.setPointerCapture(e.pointerId);
+    setPos(posFromEvent(e));
+  });
+  card.addEventListener('pointermove', e => { if (dragging) setPos(posFromEvent(e)); });
+  card.addEventListener('pointerup', () => { dragging = false; });
+  card.addEventListener('pointercancel', () => { dragging = false; });
+
+  document.querySelector('.ba-prev').addEventListener('click', () => showWork(wIdx - 1));
+  document.querySelector('.ba-next').addEventListener('click', () => showWork(wIdx + 1));
+  showWork(0);
+
+  // ===== «Подход»: большой экран — фото по кругу, смена каждые 4с =====
+  const GA = ['a1.jpg','a2.jpg','a3.jpg','a4.jpg','a5.jpg','a6.jpg','a7.jpg','a8.jpg']
+    .map(f => 'assets/approach/' + f);
+  const gaStage = document.getElementById('ga-stage');
+  const gaImgs = GA.map((src, i) => {
+    const im = document.createElement('img');
+    im.src = src; im.alt = ''; im.loading = i < 2 ? 'eager' : 'lazy';
+    gaStage.appendChild(im);
+    return im;
+  });
+  const CYCLE = 4000;
+  let gaIdx = -1, gaTimer = null;
+  function gaShow(i) {
+    gaIdx = (i + GA.length) % GA.length;
+    gaImgs.forEach((im, k) => im.classList.toggle('on', k === gaIdx));
+  }
+  function gaStart() { clearInterval(gaTimer); gaShow(gaIdx + 1); gaTimer = setInterval(() => gaShow(gaIdx + 1), CYCLE); }
+  function gaStop() { clearInterval(gaTimer); }
+  const gaRM = matchMedia('(prefers-reduced-motion: reduce)');
+  if (gaRM.matches) { gaShow(0); } else { gaStart(); }
+  gaRM.addEventListener?.('change', e => { e.matches ? gaStop() : gaStart(); });
+  // пауза, когда секция вне экрана
+  if ('IntersectionObserver' in window && !gaRM.matches) {
+    new IntersectionObserver(en => en[0].isIntersecting ? gaStart() : gaStop(), { threshold: .2 })
+      .observe(gaStage);
+  }
+
+  // ===== мобильное меню =====
+  const burger = document.querySelector('.burger');
+  const menu = document.getElementById('mobile-menu');
+  burger.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open);
+  });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    menu.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+  }));
+
+  // видео: пауза при reduced-motion / экономии трафика
+  const video = document.querySelector('.hero-video video');
+  const rmQuery = matchMedia('(prefers-reduced-motion: reduce)');
+  const saveData = navigator.connection?.saveData;
+  if (video && (rmQuery.matches || saveData)) video.pause();
+  rmQuery.addEventListener?.('change', e => { if (video) e.matches ? video.pause() : video.play(); });
+
+  // кастомный курсор: точка + неоновое кольцо, разогревается на интерактивном
+  const fine = matchMedia('(hover:hover) and (pointer:fine)');
+  const rm = matchMedia('(prefers-reduced-motion: reduce)');
+  if (fine.matches && !rm.matches) {
+    document.body.classList.add('custom-cursor');
+    const dot = document.querySelector('.cursor-dot');
+    const ring = document.querySelector('.cursor-ring');
+    let x = innerWidth / 2, y = innerHeight / 2, rx = x, ry = y, s = 1, ts = 1;
+    addEventListener('pointermove', e => {
+      x = e.clientX; y = e.clientY;
+      ts = e.target.closest('a, button, video') ? 1.5 : 1;
+    }, { passive: true });
+    (function tick() {
+      rx += (x - rx) * 0.16; ry += (y - ry) * 0.16; s += (ts - s) * 0.2;
+      dot.style.transform = `translate(${x - 3}px,${y - 3}px)`;
+      ring.style.transform = `translate(${rx - 17}px,${ry - 17}px) scale(${s})`;
+      window.__cursorRAF = requestAnimationFrame(tick);
+    })();
+  }
+
+  // ===== отзывы: лайтбокс для фото =====
+  (function () {
+    const lb = document.getElementById('lb');
+    const lbImg = document.getElementById('lb-img');
+    const closeBtn = document.getElementById('lb-close');
+    if (!lb || !lbImg) return;
+    let lastFocus = null;
+    function openLb(src, alt) {
+      lastFocus = document.activeElement;
+      lbImg.src = src;
+      lbImg.alt = alt || 'Фото из отзыва клиента';
+      lb.hidden = false;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+    function closeLb() {
+      lb.classList.remove('open');
+      lb.hidden = true;
+      lbImg.src = '';
+      document.body.style.overflow = '';
+      if (lastFocus) lastFocus.focus();
+    }
+    document.querySelectorAll('.rev-gallery figure').forEach(fig => {
+      const img = fig.querySelector('img');
+      if (!img) return;
+      const open = () => openLb(img.currentSrc || img.src, img.alt);
+      fig.addEventListener('click', open);
+      fig.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+    });
+    closeBtn.addEventListener('click', closeLb);
+    lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+    addEventListener('keydown', e => { if (e.key === 'Escape' && lb.classList.contains('open')) closeLb(); });
+  })();
+
+  // ===== полезное: карточки статей и читалка =====
+  const ARTICLES = [{"p":["5 причин делать собаке массаж (и как не навредить)","Кормление, прогулки, вычесывание — база. Но есть практика, которая укрепляет здоровье и связь с питомцем на уровне, недоступном другим процедурам. Это массаж.","Многие владельцы удивляются: «Разве собакам это нужно?» Ответ однозначный: да. И не меньше, чем людям. Мы в ГрумАрт включаем элементы массажа в каждую процедуру ухода, потому что прикосновение — это терапия. Разбираем, зачем это нужно и как делать безопасно.","❤️ 5 причин включить массаж в рутину","Снятие мышечных зажимов. После активных прогулок или долгого лежания мышцы перенапрягаются. Массаж расслабляет блоки, улучшает подвижность.","Улучшение кровообращения. Мягкие растирания усиливают приток крови, ускоряют вывод токсинов. Критически важно для пожилых и малоподвижных собак.","Профилактика суставов. Поддерживает эластичность связок, снижает риск артритов. Для собак с дисплазией — реальная помощь (после консультации с врачом!).","Антистресс. Собаки считывают наше состояние. После грозы, переезда или визита к ветеринару массаж снижает кортизол и возвращает чувство безопасности.","Диагностика + Любовь. Прикосновения учат вас чувствовать тело питомца. Вы заметите уплотнения, болезненные зоны или изменения раньше, чем они станут проблемой. И скажете без слов: «Я люблю тебя».","🎯 Кому массаж необходим?","Пожилым собакам: уменьшает скованность, поддерживает тонус.","Спортсменам и активным псам: ускоряет восстановление мышц.","Собакам с дисплазией/артритом: облегчает боль (только после одобрения ветврача!).","Тревожным и пугливым: учит расслабляться, повышает доверие к миру и хозяину.","⛔ КОГДА МАССАЖ ДЕЛАТЬ НЕЛЬЗЯ (Противопоказания)","Безопасность превыше всего. Не массируйте, если есть:","Повышенная температура.","Открытые раны, травмы, ожоги, свежие переломы/вывихи.","Воспаления кожи (дерматиты, экземы).","Опухоли, новообразования.","Эпилепсия (в активной фазе).","Шоковое состояние, сильный стресс.","ВАЖНО: В сомнительных случаях всегда консультируйтесь с ветеринаром. Массаж — это лечение, а не развлечение.","🤲 Пошаговая инструкция: Безопасный домашний массаж","Подготовка: Тихое время (после прогулки/перед сном), теплая комната. Сядьте на пол рядом с собакой (не нависайте сверху!). Говорите спокойно, хвалите.","Техники (по порядку):","Поглаживания (Разогрев, 2–3 мин). Плавные движения ладонью по спине, бокам, шее. Без нажима. Цель: установить контакт, показать безопасность.","Разминание спины (3–5 мин). Подушечками пальцев аккуратно разминайте мышцы вдоль позвоночника (сам позвоночник НЕ трогаем!). Круговые движения от шеи к крупу. Собака должна расслабляться, а не напрягаться!","Шея и плечи. Особенно важно для собак в шлейке. Разминайте основание шеи, лопатки. Чувствуете зажим? Задержитесь дольше, но без сильного давления.","Лапы. Осторожно возьмите лапу. Помассируйте подушечки, каждый пальчик, запястный сустав круговыми движениями. Многие собаки обожают это после адаптации.","Уши. Зона активных точек. Мягко разотрите раковину между пальцами, потяните вниз, помассируйте основание. Снимает напряжение мгновенно.","Завершение. Мягкие поглаживания по всему телу. Похвала + лакомство = положительное подкрепление.","️ Главные правила безопасности:","Движения плавные, без рывков.","Следите за реакцией! Уходит, напрягается, скулит? НЕМЕДЛЕННО остановитесь. Это не время или есть боль.","Не давите на суставы и позвоночник.","Максимальная длительность: 15–20 минут. Больше = переутомление.","💡 Бонус от ГрумАрт: Профессиональный массаж в салоне","Дома вы даете любовь и базовую профилактику. Но профессиональный массаж — это глубокая работа с триггерными точками, лимфодренаж и реабилитация после травм. Наши мастера знают анатомию и физику движений собаки.","Рекомендуем: Домашний массаж 2–3 раза в неделю + профессиональный сеанс раз в месяц для поддержания здоровья.","[Записаться на wellness-массаж] Профессиональная забота + обучение техникам для дома. Ваш питомец заслуживает лучшего."],"t":"5 причин делать собаке массаж (и как не навредить)"},{"p":["Безопасный дом для питомца: Чек-лист скрытых угроз","Наш дом — крепость. Но для четвероногого друга даже в самой уютной квартире таятся неочевидные риски. Привычные вещи — еда на столе, таблетки в сумке, цветок на подоконнике — могут обернуться бедой за секунды.","Мы в ГрумАрт составили протокол безопасности жилища. Это не просто список запретов, а система защиты, которая спасает жизни. Пройдитесь по этому чек-листу прямо сейчас.","️ Продукты-убийцы: То, что нельзя давать НИКОГДА","Некоторые продукты настолько привычны нам, что мы не замечаем опасности. Запомните этот черный список:","Продукт","Опасность","Действие при проглатывании","Шоколад / Кофеин","Теобромин → судороги, остановка сердца","🚨 СРОЧНО К ВЕТЕРИНАРУ","Виноград / Изюм","Острая почечная недостаточность (доза индивидуальна!)","🚨 СРОЧНО К ВЕТЕРИНАРУ","Лук / Чеснок","Разрушение эритроцитов → анемия","🚨 Наблюдение + анализ крови","Ксилит (жвачки, пасты)","Падение сахара, печеночная недостаточность","🚨 СРОЧНО К ВЕТЕРИНАРУ","Авокадо","Персин → рвота; косточка → удушье","Мониторинг состояния","Алкоголь / Дрожжевое тесто","Этанол + расширение в желудке → заворот","🚨 СРОЧНО К ВЕТЕРИНАРУ","Правило №1: Храните еду в закрытых шкафах. Объясните детям: угощать собаку со стола = наносить вред. При любом подозрении на отравление — не ждите симптомов, звоните врачу немедленно.","💊 Аптечка и бытовая химия: Зона особого контроля","Таблетки пахнут привлекательно, но даже одна может быть роковой. Бытовая химия привлекает яркостью упаковки.","Лекарства (Опасны ВСЕ):","Обезболивающие (ибупрофен, парацетамол) → язвы, отказ печени.","Антидепрессанты → поражение ЦНС.","Препараты от давления → кома.","Человеческие витамины (железо, D) → токсикоз.","Химия и косметика:","Таблетки для посудомоек = концентрированная щелочь (ожог тканей!).","Антифриз = сладкий вкус, смертельная доза \u003c 1 ст. ложки.","Эфирные масла в кремах/шампунях → токсичны при проглатывании.","Удобрения = железо + пестициды.","✅ Решение: Аптечка и химия — только в закрытых шкафах или на высоких полках. Используйте детские замки на дверцах. Никогда не пересыпайте средства в доступные емкости. Не роняйте таблетки на пол!","🌿 Растения и мелкие предметы: Невидимые ловушки","Токсичные растения (проверьте свой подоконник!):","Лилии: пыльца → отказ почек (для кошек смертельно!).","Диффенбахия / Спатифиллум: сок → ожог гортани, отек.","Азалия / Плющ / Цикламен: поражение ЦНС, судороги, галлюцинации.","Фикусы: раздражение кожи и слизистых.","Совет: Проверьте свои растения по справочнику ASPCA. Ядовитые — убрать в недоступное место или подвесить.","Мелкие предметы (риск непроходимости):","Носки, белье, колготки, детали LEGO.","Резинки для волос, фольга, крышки от бутылок.","Мячики меньше размера глотки.","✅ Решение: Следите за порядком. Игрушки выбирайте строго по размеру. После игр — убирайте в ящик. Мусорное ведро — только с плотной крышкой или в шкафу!","⚡ Электричество и окна: Физические угрозы","Провода: Грызуны рискуют получить удар тока, ожог пасти, отек легких. Прячьте провода в короба/спирали. Используйте спреи с горьким вкусом для отучения.","Окна и балконы: Москитные сетки НЕ выдерживают вес собаки! Открытое окно = риск падения. Используйте режим проветривания или защитные решетки («гребенки»). Никогда не оставляйте питомца на балконе без присмотра.","✂️ Как груминг в ГрумАрт помогает заметить беду?","Регулярные визиты к нам — это не только уход, но и система раннего обнаружения. Мастера видят то, что ускользает от владельцев:","Раздражения на коже/лапах → возможен контакт с химией или растениями.","Ожоги слизистых, слюнотечение → признаки того, что собака что-то жевала.","Ссадины на морде/конечностях → попытка достать предмет из труднодоступного места.","Изменение поведения (боль при касании живота) → симптом боли после проглатывания инородного тела.","Мы всегда делимся наблюдениями. Если мастер заметит тревожные признаки — мы сразу сообщим вам и порекомендуем визит к ветеринару. Ваша собака под нашей защитой 24/7.","💡 Чек-лист безопасности дома (Распечатайте!)","Еда убрана в закрытые шкафы, стол свободен.","Аптечка и химия — в недоступном месте (детские замки).","Токсичные растения проверены и убраны/подвешены.","Мелкие предметы собраны, мусор в закрытом ведре.","Провода спрятаны в короба, окна защищены.","Дети обучены правилам безопасности с питомцем.","Номер ветеринара и токсикологического центра — на видном месте.","Безопасность начинается с осознанности.","В ГрумАрт мы помогаем сделать ваш дом безопасной крепостью для хвостатого друга. Регулярный осмотр мастера — это дополнительный уровень защиты.","[Записаться на гигиенический осмотр]","Проверим состояние кожи, лап и слизистых. Заметим проблемы до того, как они станут критическими.","💡 Почему этот формат работает лучше:","Таблица «Черный список». Визуализирует опасность мгновенно. Владелец может распечатать её и повесить на холодильник.","Структура «Угроза → Решение». Каждый блок заканчивается конкретным действием. Нет паники, есть алгоритм.","Интеграция услуги. Блок «Как груминг помогает» показывает ценность регулярных визитов не как трату, а как инвестицию в безопасность.","Чек-лист для печати. Интерактивный элемент повышает вовлеченность и полезность контента. Люди сохраняют такие статьи.","Tone of Voice. Экспертный, спокойный, предупредительный. Фразы вроде «Зона особого контроля», «Система раннего обнаружения» подчеркивают профессионализм."],"t":"Безопасный дом для питомца: Чек-лист скрытых угроз"},{"p":["Брить гладкошерстную собаку? Нет! Экспресс-линька — безопасное решение","Весна и осень превращают дом в шерстяной ад. Пылесос работает круглосуточно, а любимец (такса, бульдог, бигль) продолжает линять, несмотря на все усилия. В голову приходит «простое» решение: побрить под ноль.","СТОП. Это одно из самых опасных заблуждений в груминге.","Мы в ГрумАрт ежедневно видим последствия такого «упрощения». Разбираем, почему машинка для гладкошерстных = травма, и предлагаем метод, который реально убирает шерсть из дома, сохраняя здоровье питомца.","Миф: «Бритье избавит от линьки и спасет от жары»","Мнение эксперта ГрумАрт:","«Ко мне часто приносят такс, мопсов, бультерьеров после домашнего бритья. Результат — испорченный волос, который не восстанавливается годами, дерматиты, перегрев. Это не косметика, это травма.» — Екатерина, топ-мастер.","Почему машинка — враг гладкошерстной собаки?","У этих пород шерсть — сложная система защиты, а не просто украшение. Бритье «под ноль» запускает каскад проблем:","Нарушение терморегуляции. Короткая ость и подшерсток работают как кондиционер. Без них кожа получает солнечные ожоги, перегревается и рискует тепловым ударом.","Повреждение фолликулов. Цикл роста волоса длинный. Лезвия травмируют луковицы → шерсть отрастает жесткой, ломкой или не растет вовсе (постриг-клипперная алопеция).","Кожные болезни. Без защитного слоя развиваются дерматиты, фолликулиты, грибковые инфекции. Кожа зудит, пахнет, воспаляется от трения шлейки.","Линька НЕ прекращается! Выбривание лишь укорачивает волос. Он продолжает выпадать, но теперь эти короткие «иголки» впиваются в ткань дивана и одежды еще сильнее. Убрать их сложнее, чем длинную шерсть.","Стресс и боль. Шум, вибрация, дискомфорт от перегрева или порезов закрепляют страх перед грумингом навсегда.","✨ Экспресс-линька: Гуманная альтернатива бритью","Что делать, если шерсть повсюду, а брить нельзя? Ответ — экспресс-линька. Это профессиональная процедура, которая удаляет до 90% отмершего подшерстка за один визит.","Почему это must-have:","«После экспресс-линьки дом становится чистым, а питомец чувствует себя обновленным. Это единственный способ контролировать линьку без вреда.» — Анна, мастер-технолог.","Как проходит процедура (4 этапа):","Спец. шампунь. Раскрывает поры, размягчает и поднимает отмерший подшерсток.","Кондиционер. Облегчает скольжение инструментов, защищает кожу.","Компрессорная сушка. Мощный поток воздуха (не фен!) выдувает всё, что уже отслоилось, из глубины шерсти.","Вычесывание фурминатором/пуходеркой. Удаляет остатки мертвого волоса. Завершающий увлажняющий спрей.","⏱️ Время: 1,5–2 часа (зависит от размера и густоты).","Преимущества, которые вы почувствуете сразу:","✅ Чистота в доме. Шерсти на полу и мебели становится в разы меньше. Эффект длится 3–6 недель.","✅ Здоровье кожи. Удаляются омертвевшие клетки, улучшается кровообращение, исчезает запах.","✅ Комфорт питомца. Процедура безболезненна. Многие собаки расслабляются и дремлют под теплым воздухом компрессора.","✅ Блестящая шерсть. Новый волос растет здоровым, плотным, красивым.","🎯 Кому показана экспресс-линька?","Гладкошерстные породы: таксы, бигли, бульдоги, доберманы, боксеры, чихуахуа, питбули.","Породы с густым подшерстком: лабрадоры, овчарки, хаски, корги.","В период сезонной линьки (весна/осень).","Перед выставками и важными событиями.","Для поддержания чистоты круглый год.","❓ Частые вопросы владельцев","Не навредит ли это?","Нет, если делает профессионал. Компрессор регулируется по температуре и силе потока. Мы работаем бережно, без рывков.","Как часто делать?","В среднем раз в 1–2 месяца. В пик линьки — чаще. Индивидуальный график подбирает мастер.","Больно ли собаке?","Абсолютно нет. Это приятнее, чем обычное расчесывание. Собаки часто засыпают на столе.","Заменит ли это стрижку?","Экспресс-линька не укорачивает длину. Для гладкошерстных стрижка вообще не требуется. Для пород с подшерстком она идет в комплексе с гигиеной.","💬 Отзывы клиентов ГрумАрт","«Наш боксер линял так, что мы думали переезжать в шерстяной дом. После экспресс-линьки пёс стал мягким, блестящим, шерсти дома — минимум. Теперь ходим раз в два месяца — счастье!»","— Елена, хозяйка боксера Грея","«Такса всегда боялась расчесывания, но после экспресс-линьки заснула под компрессором. И главное — шерсть перестала лезть клочьями. Спасибо мастерам!»","— Игорь, владелец таксы Жужи","💡 Итог: Бритье — тупик. Экспресс-линька — решение.","Стрижка машинкой гладкошерстной собаки — это не выход, а создание новых проблем. Если вы хотите избавиться от линьки и сохранить здоровье питомца, выбирайте безопасную альтернативу.","Эффективно. Безопасно. Гуманно.","[Записаться на экспресс-линьку]","Избавим ваш дом от шерсти, а питомца — от дискомфорта. Профессиональный уход без компромиссов."],"t":"Брить гладкошерстную собаку? Нет! Экспресс-линька — безопасное решение"},{"p":["Гигиеническая стрижка йорка: Почему это вопрос здоровья, а не красоты","Йоркширский терьер — это не просто длинная шерсть. Это непрерывно растущий волос, похожий на человеческий. У него нет подшерстка, и он не линяет сам по себе. Без регулярного ухода эта красота превращается в войлок, который стягивает кожу и причиняет боль.","Многие владельцы думают: «Я мою собаку раз в месяц, этого достаточно». Но мытье не решает проблему отросшей шерсти между пальцами или в паху. Именно там начинаются грибки, дерматиты и хронический дискомфорт.","Разбираемся с мастерами ГрумАрт, что входит в обязательный гигиенический минимум и почему его нельзя игнорировать.","️ Что входит в гигиеническую стрижку?","Это базовый набор процедур для здоровья и чистоты. Он нужен каждому йорку, независимо от того, ходит ли он на выставки или просто гуляет во дворе.","Интимные зоны (пах и анус). Самая важная зона. Длинная шерсть здесь пачкается после каждого туалета, собирает бактерии и вызывает неприятный запах. У девочек во время течки это создает дополнительный дискомфорт.","Лапы и подушечки. Шерсть между пальцами выстригается полностью. Там скапливается влага, грязь и реагенты — идеальная среда для грибка. Запущенные лапы — главная причина хромоты и дерматитов.","Живот (особенно у мальчиков). Если шерсть на животе длинная, она постоянно мокнет на прогулках, раздражая нежную кожу.","Глаза и уши. Волоски на переносице убирают, чтобы они не кололи глаза и не вызывали слезотечение. Шерсть внутри ушей прорежают для вентиляции — это профилактика отитов.","Когти. Длинные когти меняют постановку лап и могут врастать в подушечки. Их стригут и подпиливают обязательно.","Колтуны. Запущенные колтуны не вычесывают (это больно!), их аккуратно выстригают.","** Мнение эксперта ГрумАрт:**","«Владельцы часто приходят, когда собака уже хромает. Они думают, что это ушиб, а на самом деле — грибок между пальцами из-за того, что шерсть не стригли и не сушили после прогулки. Гигиена — это не про красоту, это про отсутствие боли.»","Зачем это нужно? (Спойлер: не только для чистоты)","Здоровье кожи. Колтуны создают «парниковый эффект». Кожа под ними преет, воспаляется, появляются экземы. Особенно в паху и подмышках.","Комфорт движения. Представьте, что вы ходите в мокрой обуви, которая натирает. Йорк с неотстриженными лапами чувствует то же самое. Ему больно наступать, лапы скользят.","Чистота дома. Стриженая собака приносит в дом в 3 раза меньше грязи. Шерсть не работает как «щетка» для сбора пыли и листьев.","Профилактика. Регулярная обработка ушей и интимных зон снижает риск дорогостоящего лечения отитов и инфекций в будущем.","⏱️ Как часто делать гигиену?","Шерсть йорка растет быстро (1–2 см в месяц). Оптимальный интервал для гигиенической стрижки: раз в 2–3 недели.","Если делать реже (раз в месяц и больше), шерсть успевает сбиться в колтуны в труднодоступных местах, и процедура становится сложнее, дольше и дороже.","Гигиена: строго каждые 2–3 недели.","Модельная/выставочная стрижка: раз в 1,5–2 месяца.","С какого возраста начинать?","Чем раньше, тем лучше. Щенок — это пластилин.","С 1,5 месяцев: убираем шерсть вокруг ануса, приучаем стоять на столе.","С 3–4 месяцев: полноценная гигиеническая стрижка.","С 7–8 месяцев: переход к модельным стрижкам после смены щенячьей шерсти.","Если первый визит к грумеру состоится в год, собака будет в стрессе. Раннее привыкание гарантирует, что взрослый йорк будет спокойно лежать на столе и доверять мастеру.","🏠 Можно ли делать гигиену дома?","Можно, но с осторожностью. Зоны паха, ануса и между пальцами — самые травмоопасные. Кожа там тонкая, одно неверное движение машинкой — и будет порез, кровь и страх перед стрижкой на всю жизнь.","Наш совет:","Доверьте сложные зоны профессионалам хотя бы первые полгода.","Дома поддерживайте чистоту: расчесывайте, протирайте лапы после прогулок, стригите когти (если умеете).","Если решили стричь сами: используйте только профессиональные инструменты (человеческие машинки вырывают шерсть!), смотрите обучающие видео и никогда не настаивайте, если собака нервничает.","✅ Чек-лист гигиены йорка от ГрумАрт","Сохраните график, чтобы не забыть:","Стрижка лап, паха, живота: раз в 2–3 недели.","Чистка ушей и глаз: еженедельно.","Стрижка когтей: раз в 2 недели.","Полная модельная стрижка: раз в 1,5–2 месяца.","Щенки: начинаем приучение с 1,5 месяцев.","Йорк требует внимания, но результат того стоит. Здоровая, ухоженная собака — это счастливая собака. Не ждите, пока появятся проблемы.","👉 [Записаться на гигиеническую стрижку]","Мастера ГрумАрт сделают всё бережно, быстро и без стресса для вашего питомца."],"t":"Гигиеническая стрижка йорка: Почему это вопрос здоровья, а не красоты"},{"p":["Интимная гигиена шпица: Почему ножницы спасают шерсть (а машинка убивает)","Шпиц — это не просто пушистое облако. Это порода с одной из самых «капризных» шерстей в мире груминга. Когда владелец просит: «Побрите попу под хвостиком под ноль, чтобы было чисто», настоящий профессионал должен мягко, но уверенно сказать: «Нет. Мы сделаем лучше и безопаснее».","Сегодня разбираем самый деликатный и опасный участок работы — зону гигиенического треугольника. Почему бритье машинкой для шпица равносильно травме, и как выполнить гигиену так, чтобы собака была чистой, здоровой и красивой.","⚠️ Машинка = Враг шпица (Научное обоснование)","Главный страх грумера при виде шпица — не укус, а постриг-клипперная алопеция. Это не миф, а генетически обусловленная реакция фолликулов на механическое воздействие.","Кожа шпица в зоне бикини, на животе и у основания хвоста особенно тонкая и богата сальными железами. Бритье «под ноль» запускает каскад проблем:","Микротравматизация фолликулов. Лезвия повреждают луковицы на уровне кожи.","Нарушение терморегуляции. Кожа теряет защиту, начинает преть и сохнуть одновременно.","Фаза телогена (покоя). Волосяные луковицы «засыпают» и могут никогда не проснуться.","Результат: Вместо чистой шерсти вы получаете пожизненные проплешины и хронический дерматит. Пытаясь сделать «гигиеничнее», мы создаем идеальную среду для раздражения. Ирония ситуации в том, что бритье решает проблему чистоты на 2 недели, но создает проблему здоровья на годы.","✂️ Филировка как метод: Архитектура вместо удаления","Гигиена шпица — это не удаление шерсти, а её умное укорачивание. Забудьте про насадки 1–3 мм. Ваш арсенал для интимного треугольника:","Прямые ножницы с тупыми концами: Для создания четкой линии санитарной дорожки без риска порезов.","Филировочные ножницы: Главный инструмент. Убирают плотность в зоне ануса, создавая «дышащий» объем, но сохраняя защитную длину подшерстка.","Мини-машинка: Только для подушечек лап! В паховой складке и вокруг гениталий допустима только точечно и с крайней осторожностью. Лучше заменить её работой маленьких ножниц.","🎨 Техника «Прозрачной гигиены»: Пошаговый протокол","Как выполнить стрижку, которая будет действительно чистой, но сохранит здоровье шерсти?","Подготовка. Работаем только с идеально чистым, расчесанным и высушенным компрессором волосом. Грязная шерсть тупит ножницы и скрывает контуры кожи.","Зона ануса. Не выстригаем «дырку»! Убираем шерсть радиусом 2–3 см вокруг анального отверстия, используя филировку. Движения ножницами — строго перпендикулярно коже, чтобы не травмировать слизистую.","Пах и гениталии. Отводим волос в сторону и работаем филировкой вдоль естественной линии роста. Цель — убрать длину, цепляющую мочу и грязь, но оставить подшерсток как барьер. Лобок оформляется плавным переходом, без резких «ступенек».","Хвост-фонтан. Поднимаем хвост и срезаем лишнюю шерсть, свисающую с его основания вниз. Это визуально облегчает заднюю часть и предотвращает попадание фекалий в «штаны».","💬 Как объяснить владельцу: Формула заботы","Когда клиент настаивает на бритье («так делали в прошлом салоне»), используйте этот скрипт:","«Шерсть шпица работает как термос. Если мы сбреем защитный покров в интимной зоне, кожа начнет перегреваться, преть и сохнуть. Луковицы \"заснут\" навсегда, и вместо шерсти там останется темная сухая кожа. Я предлагаю сделать арт-гигиену ножницами. Это займет на 15 минут больше, но ваш шпиц уйдет не только чистым, но и здоровым. Это стандарт премиум-груминга в ГрумАрт.»","🌿 SPA-финиш: Закрепляем результат","После стрижки обязательно обработайте зону бикини гипоаллергенным гидролатом ромашки или специальной успокаивающей пенкой. Это:","Снимает микро-раздражение и красноту.","Убирает ощущение «колючек» после стрижки.","Закрепляет эффект салонного ухода.","Шпиц с охлажденной, чистой кожей — это благодарный клиент, который не будет ерзать по полу после визита к вам.","💡 Чек-лист безопасной гигиены шпица","Никакого бритья «под ноль» в интимных зонах.","Использование только филировочных и прямых ножниц с тупыми концами.","Работа перпендикулярно коже в зоне ануса.","Плавные переходы без резких границ.","Обязательное SPA-увлажнение после процедуры.","Объяснение владельцу физиологии породы перед началом работы.","Здоровье шерсти начинается с правильной гигиены.","В ГрумАрт мы не идем на поводу у вредных привычек. Мы знаем анатомию шпица и делаем уход, который сохраняет красоту на годы.","[Записаться на породную гигиену шпица]","Безопасная стрижка ножницами + SPA-уход + консультация по домашнему уходу.","💡 Почему этот формат усиливает бренд:","Научная аргументация. Термины «постриг-клипперная алопеция», «фаза телогена», «микротравматизация» показывают глубину экспертизы. Это не мнение, это биология.","Четкий протокол. Пошаговая техника «Прозрачной гигиены» делает текст полезным даже для других грумеров, что повышает авторитет бренда.","Скрипт для коммуникации. Блок «Как объяснить владельцу» решает реальную бизнес-задачу: как отказать клиенту, не потеряв его, а наоборот — повысив доверие.","Акцент на премиальность. Фразы «стандарт премиум-груминга», «арт-гигиена» позиционируют услугу как элитную, оправдывая более высокую цену и время.","Tone of Voice. Уверенный, педагогичный, заботливый. Мы не запрещаем, мы обучаем и защищаем."],"t":"Интимная гигиена шпица: Почему ножницы спасают шерсть (а машинка убивает)"},{"p":["Клещ на собаке: Протокол защиты, извлечения и выживания","Весна — это не только солнце и парки. Это сезон охоты кровососущих паразитов. Пока ваш пес носится по траве, клещ уже выбирает место для укуса. В прошлых статьях мы говорили об уходе, но сегодня — о том, о чем молчать нельзя.","Мы в ГрумАрт подходим к этому не как учебник, а как практики, которые ежедневно видят последствия клещевых атак. Разбираем, как защитить питомца, правильно удалить паразита и не пропустить беду.","🛡️ Защита: Комбинированный щит (не 100%, но максимум)","Клещи не прыгают и не летают. Они ползают по травинкам на высоте 20–50 см, ожидая добычу. Даже прогулка по городскому газону может закончиться укусом.","Что работает реально? Лучшая защита — комбинированная. Никакое средство не дает 100% гарантии, поэтому важен комплекс:","Средство","Плюсы","Минусы","Вердикт ГрумАрт","Таблетки («Бравекто», «Симпарика»)","Не смываются, защита неделями, надежны","Владелец боится «химии»","✅ Самый надежный метод в пик сезона","Капли на холку («Адвокат», «Фронтлайн»)","Классика, действуют 1–3 мес.","Нужно наносить на чистую кожу, не мыть до/после","✅ Хорошо как база, если нет таблеток","Спреи («Барс», «Больфо»)","Быстрая обработка «на выход»","Недолго, нужно повторять","✅ Идеально как дополнение к таблеткам","Ошейники («Форесто»)","«Надел и забыл»","Работают хуже при купании/болтанке","⚠️ Только как дополнение, не основа","Главное правило: Таблетка + спрей перед прогулкой = отличная связка. Но никакая химия не заменяет ручной осмотр. После каждого выхода проводите ладонями по шерсти против роста, заглядывайте в уши, подмышки, пах, между пальцами. Там клещи любят больше всего.","🆘 Нашли клеща? Спокойствие и алгоритм","Обнаружили присосавшегося паразита. Первая мысль — выдернуть. СТОП. Резкий рывок оставит головку под кожей (воспаление), а раздавленное брюшко впрыснет еще больше слюны с инфекцией.","Пошаговый протокол извлечения:","Наденьте перчатки. Клещ заразен и для человека.","Возьмите инструмент. Идеально — клещедер (крючок-винт). Нет? Тонкий пинцет с загнутыми кончиками.","Зацепите правильно. Максимально близко к коже. Не сжимайте тельце — только головку.","Выкручивайте, не тяните. Плавно вращайте против (или по) часовой стрелке. Без рывков! Через 2–3 оборота он выйдет сам.","Обработайте рану. Хлоргексидин или мирамистин. Йод/зеленка — только вокруг, не в рану!","Сохраните клеща. Положите в контейнер (баночка от киндера) с влажной ваткой. Подпишите дату. Он нужен для анализа.","🚫 КАТЕГОРИЧЕСКИ НЕЛЬЗЯ:","Капать маслом, спиртом, бензином.","Прижигать сигаретой.","Выковыривать иголкой.","Давить голыми руками.","После укуса: Наблюдение вместо паники","Самое опасное происходит не в момент укуса, а в течение 2–20 дней. Пироплазмоз, боррелиоз, эрлихиоз начинаются не сразу.","Чек-лист контроля (сохраните себе):","Сдать клеща на анализ. ПЦР в лаборатории (Роспотребнадзор, частные центры). Стоит копейки, дает точный ответ. Стерильный = выдохнули. Инфицированный = к врачу с результатом.","Измерять температуру ежедневно. Норма собаки: до 39°C. Выше 39,5°C = тревога.","Следить за мочой. Потемнела? Стала бурой, цвета пива или кока-колы? СРОЧНО К ВЕТЕРИНАРУ! Это признак разрушения эритроцитов (пироплазмоз).","Наблюдать за поведением. Отказ от еды, вялость, рвота, желтушность десен, шаткая походка — красные флаги. Раньше носился как метеор, а теперь лежит? Не ждите.","ВАЖНО: Пироплазмоз лечится, но счет идет на часы. Не читайте форумы, не слушайте соседку. При симптомах — бегите к врачу.","✂️ Бонус от ГрумАрт: Почему груминг спасает жизни?","Кажется, что стрижка тут ни при чем. А вот и нет. Регулярный профессиональный уход — это система раннего обнаружения:","Осмотр скрытых зон. Мастер проверяет места, куда вы редко заглядываете: за ушами, в паху, между пальцами.","Удаление колтунов. В свалявшейся шерсти клеща можно не разглядеть, а он там отлично прячется и питается.","Контроль кожи. Чистая, сухая шерсть быстрее просматривается. Мы замечаем подозрительные бугорки и черные точки до того, как они станут проблемой.","Безопасное извлечение. Если мастер находит клеща — он аккуратно извлечет его по протоколу и сообщит вам.","Чистоплотная собака = более безопасная собака.","💡 Итог: Холодная голова и горячее сердце","Клещи — часть реальности. От них не спрятаться даже в городе. Но паника — худший советчик.","Ваш алгоритм выживания:","Профилактика (таблетка+спрей) → Осмотр после каждой прогулки → Правильное извлечение клещедером → Анализ клеща + наблюдение 20 дней → Визит к врачу при первых симптомах.","Не ждите симптомов.","После каждой прогулки по лесу или высокой траве рекомендован визит к грумеру для гигиены и контроля. Мы осмотрим, вычешем и убедимся, что ваш питомец в безопасности.","[Записаться на осмотр после прогулки]","Профессиональный контроль + гигиена + спокойствие. Берегите своих хвостатых.","💡 Почему этот формат работает лучше:","Структура «Протокол». Текст читается как инструкция по технике безопасности. Нет воды, только действия. Таблица средств защиты позволяет быстро сравнить варианты.","Визуализация запретов. Блок «КАТЕГОРИЧЕСКИ НЕЛЬЗЯ» оформлен как стоп-сигнал. Это снижает риск фатальных ошибок при стрессе.","Чек-лист наблюдения. Владелец может использовать его как ежедневный дневник контроля после укуса. Фраза про «цвет кока-колы» — яркий якорь, который запоминается навсегда.","Интеграция услуги. Блок «Почему груминг спасает жизни» логично объясняет, зачем идти к вам до проблемы, а не только после. Это нативная продажа профилактики.","Tone of Voice. Уверенный, спокойный, экспертный. Без запугивания, но с четким пониманием рисков. Фразы вроде «Счет идет на часы» работают как мотиватор к действию."],"t":"Клещ на собаке: Протокол защиты, извлечения и выживания"},{"p":["Когда вода вредит: 3 скрытые угрозы лета (и как их предотвратить)","Купание в водоеме, игры с дождевателем, частые помывки после прогулок — собака счастлива, владелец спокоен. Но есть нюанс, о котором забывают почти все: вода без правильной сушки = хронические болезни.","Без профессионального подхода любовь к воде оборачивается долгим и дорогим лечением. Разбираем три главные угрозы, которые грумер способен предотвратить на раннем этапе.","🔥 Угроза №1: Hot Spot (Мокнущая экзема)","Развивается за 2 часа. Выглядит как ожог.","После купания под плотным подшерстком остается влажная, теплая среда — идеальный инкубатор для бактерий. Всего за пару часов запускается бурное воспаление. Собака разлизывает место, и за ночь сантиметровое пятно превращается в обширную сочащуюся рану размером с ладонь.","Кто в зоне риска: Лабрадоры, хаски, овчарки, колли, сенбернары. Все породы с набивным подшерстком, который сохнет часами.","Как распознать:","Внезапное интенсивное вылизывание/грызение одного места.","Кожа горячая на ощупь.","От шерсти исходит сладковатый неприятный запах.","Шерсть над очагом склеена гноем.","👂 Угроза №2: «Ухо пловца» (Наружный отит)","Вода + сера = пробка для грибков.","Влага в слуховом проходе смешивается с серой, создавая идеальную среду для дрожжей и бактерий.","⚠️ СТОП-ОШИБКА: Никогда не чистите уши ватными палочками после купания! Палочка утрамбовывает воду и серу глубже к барабанной перепонке.","✅ Правильный уход: Специальный подсушивающий лосьон → массаж основания уха → дать собаке вытряхнуть содержимое → промокнуть остатки диском (не углубляясь!).","Симптомы: Тряска головой, наклон головы в одну сторону, коричневые выделения, неприятный запах, хлюпающий звук при надавливании на ухо.","🐕‍ Угроза №3: Синдром «Холодного хвоста»","Больно вилять хвостом после холодной воды.","Научное название — острая каудальная миопатия. Возникает после купания в холодной воде или долгого нахождения под ледяным дождем. Спазм и микротравма мышц хвоста из-за переохлаждения и активной работы им как «рулем» в воде.","Признаки: Хвост висит как плеть от самого основания. Собака не может им вилять, испытывает боль при попытке сесть. Требует покоя и НПВС у ветеринара. Без лечения боль сохраняется до 2 недель.","🛡️ Протокол защиты ГрумАрт: Почему полотенца недостаточно?","Активным собакам, проводящим выходные у воды, мы рекомендуем гигиенический груминг сразу после выезда. Это не навязывание услуг, а прицельная профилактика трех заболеваний выше.","Что делает компрессорная сушка (чего не сделает полотенце):","Выдувает влагу из глубины подшерстка. Полотенце убирает только поверхностную воду. Компрессор проникает к коже, устраняя «парниковый эффект».","Вычесывает мертвый волос. Убирает свалявшуюся шерсть, которая могла создать очаг для Hot Spot.","Профессиональный осмотр. Мы проверяем уши, лапы и кожу на предмет первых признаков воспаления, пока они еще не стали проблемой.","Один визит после активных выходных = предотвращение трех болезней.","Профилактика в салоне всегда дешевле и спокойнее, чем курс антибиотиков, противогрибковых и недель лечения в клинике.","💡 Чек-лист безопасности после купания","Сушка: Только компрессором или феном с постоянным разбором шерсти. Никаких «самообсыханий»!","Уши: Подсушивающий лосьон + массаж + вытряхивание. Запрет на ватные палочки.","Осмотр: Проверить кожу на наличие горячих точек, особенно под мышками и в паху.","Хвост: Если после холодной воды хвост повис — покой и визит к врачу. Не массировать и не греть!","После выезда на природу: Записаться на гигиенический груминг в течение 24–48 часов.","Не рискуйте здоровьем питомца ради экономии времени.","В «ГрумАрт» мы знаем, как правильно сушить и осматривать собак после водных процедур. Защитите своего друга от скрытых угроз лета.","[Записаться на пост-купальный груминг]","Компрессорная сушка + осмотр + профилактика. Ваш питомец будет сухим, чистым и здоровым.","💡 Почему этот формат работает лучше:","Структура «Угроза → Решение». Каждая проблема сразу сопровождается понятным объяснением и действием. Владелец не просто пугается, а получает инструкцию.","Акцент на технологии. Блок про компрессорную сушку объясняет почему это важно (физика процесса), а не просто говорит «приходите к нам». Это повышает ценность услуги.","Четкие запреты и разрешения. Фразы «СТОП-ОШИБКА» и «Правильный уход» визуально выделяют критически важную информацию.","Экономическое обоснование. Сравнение стоимости профилактики и лечения делает запись к грумеру рациональным выбором, а не тратой.","Tone of Voice. Экспертный, предупредительный, но заботливый. Мы говорим как специалисты, которые видели последствия ошибок и хотят их предотвратить."],"t":"Когда вода вредит: 3 скрытые угрозы лета (и как их предотвратить)"},{"p":["Кому доверить хвостатого друга? Гид по безопасной передержке","Отпуск, командировка, поездка к родственникам — наступает момент, когда любимца не с кем оставить. Вариантов много, но страх перед неизвестностью парализует. А вдруг обманут? Что, если ему будет плохо?","Скандалы с «черными передержками» заставили многих усомниться в порядочности исполнителей. Чтобы ваш пес не стал жертвой недобросовестных людей, мы в ГрумАрт подготовили протокол безопасности. Разбираем варианты, чек-лист проверки и правила подготовки.","4 варианта: плюсы, минусы и риски","Вариант","✅ Плюсы","⚠️ Риски","Вердикт ГрумАрт","Родные и друзья","Знакомая компания, низкий стресс","Не все готовы к ответственности; сложности с поведением","Идеально, если есть опыт и желание","Приходящий догситтер","Собака дома, привычная обстановка","Риск доступа постороннего в жилье","Требует тщательной проверки репутации","Домашний отель","Круглосуточный уход, общение","Смена обстановки, соседи по дому","Подходит только социальным собакам","Проф. зоогостиница","Инфраструктура, ветврач, договор","Стоимость выше частного лица","✅ Самый безопасный вариант для отпуска","Главное правило: Красивые фото в соцсетях ≠ безопасность. Всегда проверяйте условия лично и требуйте документы. Доверие должно быть подтверждено фактами.","️ Как проверить зоогостиницу: 7 шагов безопасности","Не верьте словам. Используйте этот алгоритм при выборе:","Требуйте ДОГОВОР. Устные договоренности = отсутствие ответственности. В договоре должны быть прописаны права, обязанности и действия при форс-мажоре.","Проверьте вет. требования. Без действующего паспорта и прививок питомца не должны принять. Это базовая биобезопасность для всех постояльцев. Есть ли карантинная зона?","Оцените персонал. В штате должны быть специалисты, понимающие породную психологию. Зарегистрированная юрлицо гостиница несет ответственность по закону — это ваша защита.","Личный осмотр ОБЯЗАТЕЛЕН. Приезжайте сами. Чистота, сухость, вентиляция, простор — оценивайте глазами, а не через камеру телефона.","Совет кинологов: Запланируйте пробный визит на 1–2 часа. Посмотрите, как сотрудники общаются с другими собаками.","Уточните формат проживания. Индивидуальный номер или группа? Если ваш пес тревожный или не любит сородичей — только индивидуал. Тестируют ли соседей на совместимость?","Рацион и ветеринар. Персонал должен кормить вашим привычным кормом (смена рациона + стресс = проблемы). Есть ли штатный врач или договор с клиникой?","Репутация вне сайта. Ищите отзывы в городских пабликах и независимых приложениях. Рейтинг на собственном сайте может быть накручен.","🎒 Безопасная передача: Чек-лист сборов","Даже идеальная гостиница не знает привычек вашего пса. Помогите ему адаптироваться:","Что взять с собой:","Ветпаспорт со всеми отметками.","Запас привычного корма + лакомства (+20% на случай задержки).","Миски, амуниция (поводок/шлейка), одежда по сезону.","Любимая игрушка и подстилка с запахом дома (снижает стресс!).","Адресник с актуальными контактами.","Дорожная аптечка (адсорбент, антигистаминное, бинты — по согласованию с врачом).","Что обсудить с sitter\u0027ом/гостиницей:","Подробная анкета: что можно/нельзя, страхи, режим, любимые места.","Канал связи: частота фото/видеоотчетов (раз в день или по запросу).","Знакомство на нейтральной территории (для догситтера).","✂️ Роль груминга в безопасной передержке","Кажется, что стрижка тут ни при чем. Но это критически важный этап подготовки:","Пре-груминг (перед отъездом): Гигиеническая стрижка когтей, чистка ушей, купание. Опрятный, чистый пес меньше подвержен дерматитам в новых условиях. Мастер также заметит скрытые проблемы (клещи, воспаления), которые вы могли пропустить.","Пост-груминг (после возвращения): Снятие накопившегося стресса через тактильный контакт. Восстановление баланса, проверка состояния шерсти и кожи после смены обстановки.","Чистый и ухоженный питомец = меньше рисков для здоровья во время отсутствия хозяина.","💡 Итог: Спокойствие покупается проверкой","Уехать в отпуск без тревоги — реально. Но цена этого спокойствия — ваша внимательность. Личный визит, договор, проверка отзывов и пре-груминг — ваша страховка от неприятностей.","Не рискуйте самым дорогим.","В ГрумАрт мы поможем подготовить питомца к разлуке и встретить его回来后 здоровым и счастливым.","[Записаться на пре-отпускной груминг]","Гигиена + осмотр + спокойствие. Ваш питомец будет готов к отпуску, а вы — к отдыху.","💡 Почему этот формат усиливает доверие:","Структура «Проблема → Решение». Таблица вариантов позволяет быстро сравнить риски. Блок «7 шагов» дает конкретный инструмент проверки, а не общие слова.","Юридическая грамотность. Акцент на договоре и ветпаспорте показывает, что вы серьезная студия, которая заботится о правовой защите клиентов.","Интеграция услуги. Блок «Роль груминга» логично объясняет, зачем идти к вам до и после отпуска. Это нативная продажа двух услуг сразу.","Эмпатия + Экспертиза. Текст признает страх владельца («парализует», «черные передержки»), но сразу дает инструменты контроля. Tone of Voice: поддерживающий, но твердый в вопросах безопасности.","Чек-листы. Списки «Что взять» и «Что обсудить» снижают когнитивную нагрузку. Владелец может просто скопировать их и использовать как памятку."],"t":"Кому доверить хвостатого друга? Гид по безопасной передержке"},{"p":["Лапы в порядке: Первая помощь при травмах и когда бежать к врачу","Лапы — главный инструмент собаки. Но именно они страдают первыми: битое стекло, реагенты, острые льдинки, сломанные когти. Пока хозяин не видит проблему, питомец терпит боль. А когда появляется кровь или хромота — начинается паника.","Мы в ГрумАрт составили протокол первой помощи, чтобы вы действовали грамотно, а не интуитивно. Сохраните эту инструкцию — она может спасти лапу вашего друга.","️ ТОП-4 травмы лап (и как их распознать)","Порез подушечки (стекло, камень, жесть). Симптомы: Кровь, собака не наступает на лапу, виден край предмета.","Трещины от реагентов/сухости. Симптомы: Шершавые подушечки, глубокие кровоточащие трещины, особенно зимой/весной.","Сломанный коготь. Симптомы: Резкая боль, сильное кровотечение (в когте есть сосуд), надлом у основания.","Заноза/шипы. Симптомы: Постоянное вылизывание, легкая хромота, припухлость между пальцами. Не всегда видна сразу!","🆘 Пошаговый протокол: Что делать прямо сейчас","Главное правило: Ваше спокойствие = спокойствие собаки. Паника передается мгновенно.","Шаг 1. Остановить кровь","Прижмите чистую марлевую салфетку или бинт на 2–3 минуты. Не подглядывайте! Давление должно быть постоянным.","Если не помогает: используйте гемостатическую губку или присыпку («Цамакс», кровоостанавливающий карандаш). Они должны быть в аптечке каждого владельца.","Шаг 2. Осмотреть и очистить","Промойте рану хлоргексидином или мирамистином. Можно просто налить из флакона.","Пинцетом (обработанным!) аккуратно извлеките видимый осколок или занозу.","Если предмет глубоко и не выходит — НЕ КОВЫРЯЙТЕ. Идите к врачу.","Шаг 3. Повязка: нужна или нет?","Мелкий порез: Достаточно мази (Левомеколь, Пантенол-спрей) + контроль, чтобы не слизывал.","Глубокая рана: Стерильная марля + фиксация бинтом + детский носок/защитная обувь сверху.","⚠️ Важно: Не заматывайте туго! Нужен доступ воздуха. Меняйте повязку ежедневно.","Шаг 4. Наблюдение","Дайте питомцу отдохнуть. Если боль сильная или хромота не проходит через 30–40 минут — это повод для визита к ветеринару.","🚫 ЧЕГО ДЕЛАТЬ КАТЕГОРИЧЕСКИ НЕЛЬЗЯ","Эти «народные средства» наносят больше вреда, чем сама травма:","❌ ЗАПРЕЩЕНО","✅ ПРАВИЛЬНО","Йод, зеленка, спирт, водка","Хлоргексидин, Мирамистин","Перекись водорода (жжет ткани!)","Только для смывания засохшей крови","Вата (волокна прилипают к ране)","Марлевые салфетки, нетканый бинт","Пластырь на шерсть (выдирает волосы)","Бинт + носок/обувь","Человеческие обезболивающие (токсичны!)","Только препараты, назначенные врачом","ВАЖНО: Парацетамол, ибупрофен, анальгин — ЯД для собак. Никогда не давайте их самостоятельно!","Когда БЕЖАТЬ к ветеринару (без вариантов)","Не ждите «само пройдет», если видите эти признаки:","Кровотечение не останавливается \u003e10–15 минут даже с давящей повязкой.","Видна кость, сухожилие или глубокая рваная рана.","Сильная хромота: собака вообще не опирается на лапу.","Отек: конечность распухла, горячая на ощупь.","Сломанный коготь полностью отошел, торчит основание.","Собака не дает притронуться, скулит, агрессивна (возможен перелом!).","Появились гнойные/мутные выделения (инфекция).","В этих случаях медлить нельзя: нужны швы, седация, рентген, антибиотики.","🛡️ Профилактика в ГрумАрт: Почему гигиена лап важнее лечения","Регулярный профессиональный уход снижает риск травм в разы. Мы делаем то, что невозможно заметить дома:","Осмотр подушечек: Находим сухость, трещины, мозоли, инородные тела ДО того, как собака начнет хромать.","Стрижка и подпиливание когтей: Отросшие когти меняют постановку лапы → риск зацепов и поломок.","Гигиена между пальцами: Выстригаем шерсть, где застревают камешки и намерзает снег.","Увлажнение и защита: Используем спецкремы и воски, создающие барьер от реагентов и трещин.","Мнение эксперта ГрумАрт:","«Часто приводят собак с запущенными проблемами: коготь сломан, подушечка в трещинах. А ведь достаточно было приходить на гигиену раз в 4–6 недель — и мы бы убрали всё на ранней стадии. Профилактический визит занимает час, но экономит недели лечения и огромный стресс.»","💡 Чек-лист безопасности лап","Аптечка: хлоргексидин, марля, гемостатическая губка, Левомеколь.","После прогулки: осмотр пальцев, удаление реагентов, сушка.","Зимой: защитный воск перед выходом, бальзам после.","Гигиеническая стрижка лап: раз в 2–4 недели (особенно для активных/городских собак).","При травме: действовать по протоколу, не паниковать, знать красные флаги.","Не ждите крови на полу.","В ГрумАрт мы делаем лапы устойчивыми к нагрузкам и внешним угрозам. Регулярная гигиена — это инвестиция в здоровье, а не трата.","[Записаться на гигиену лап]","Осмотр + стрижка когтей + уход за подушечками. Защитим лапы вашего питомца до того, как появится проблема.","💡 Почему этот формат идеален для сайта:","Структура «Протокол». Текст читается как инструкция по технике безопасности, что соответствует серьезности темы. Нет воды, только действия.","Таблица «ЗАПРЕЩЕНО / ПРАВИЛЬНО». Визуально выделяет критические ошибки. Владелец может быстро проверить себя во время стресса.","Четкие красные флаги. Список «Когда бежать к врачу» оформлен как чек-лист тревоги. Это снижает риск промедления.","Профилактика как решение. Блок про услуги ГрумАрт логично вытекает из проблемы. Мы не продаем стрижку — мы продаем безопасность.","Tone of Voice. Уверенный, спокойный, экспертный. Без паники, но с четким пониманием рисков. Фразы вроде «Не ковыряйте», «Яд для собак» работают как стоп-сигналы."],"t":"Лапы в порядке: Первая помощь при травмах и когда бежать к врачу"},{"p":["Летний квест: Как помочь питомцу выжить в жару, ливни и резкие перепады","Лето 2024 устроило настоящий стресс-тест: вчера +30°C, сегодня холодный ливень. Для собаки или кошки такие качели — серьезное испытание. Их терморегуляция работает иначе, чем у нас, и они не могут просто сказать: «Мне жарко» или «Я замерз».","Мы в ГрумАрт собрали проверенные протоколы безопасности, чтобы ваш питомец прошел этот сезон без потерь. Никакой воды — только работающие методы.","☀️ Жара: Когда солнце становится врагом","Собаки и кошки не потеют всем телом. Их единственный эффективный способ охлаждения — частое дыхание с открытым ртом. При температуре выше +30°C эта система работает на износ.","Кто в зоне риска?","Брахицефалы (мопсы, бульдоги, боксеры, персы) — анатомически не могут эффективно охлаждаться.","Питомцы с густым подшерстком — шерсть работает как термос.","Пожилые животные и аллергики — терморегуляция нарушена.","Собаки с лишним весом — жир мешает отдаче тепла.","Темный окрас — притягивает солнечные лучи как магнит.","⚠️ Красные флаги перегрева (Действуйте немедленно!)","Тепловой удар развивается за минуты. Если видите эти симптомы — остановите прогулку:","Тяжелое, шумное дыхание, язык высунут максимально далеко.","Слюна стала густой, тягучей или пенистой.","Слизистые ярко-красные или синюшные.","Шаткая походка, дезориентация, вялость.","Рвота или диарея.","Температура выше 39,5°C.","История из практики ГрумАрт:","«К нам привезли мопса Барни после прогулки в 14:00. Язык посинел, дыхание сбилось. Хозяева думали: \"Он же всегда так гуляет\". Но в эту жару \"всегда\" стало опасным. Мы охладили его прохладной водой (не ледяной!), дали попить, поместили в кондиционируемое помещение. Барни выжил, но теперь его график прогулок смещен строго на утро и вечер. Не рискуйте привычками.» — Татьяна Крапивина, грумер.","️ Протокол защиты от жары","Сдвиньте график. Прогулки только до 9:00 и после 20:00. Днем — только туалет на 5 минут.","Вода — закон. Всегда носите складную миску. Обезвоживание убивает быстрее, чем жара.","Охлаждайте правильно. Смачивайте лапы, живот, подмышки.","ЗАПРЕЩЕНО: Ледяная вода (спазм сосудов!), мочить голову и спину (нарушает теплоотдачу).","Не брейте «под ноль». Шерсть защищает от ожогов и перегрева. Лучше качественно вычесать подшерсток.","Машина = смертельная ловушка. Даже на 5 минут с приоткрытым окном. За 10 минут температура внутри достигает +50°C.","Дома: Кафель, ванная, охлаждающий коврик. Если есть кондиционер — перед выходом постойте в подъезде 5–10 минут для адаптации.","💡 Лайфхаки ГрумАрт","Ледяные игрушки: Заморозьте резиновые игрушки с водой. Собака играет и охлаждается одновременно.","Ароматная вода: Если питомец отказывается пить, добавьте в воду немного куриного бульона или размочите гранулы корма. Аромат стимулирует жажду. (Используйте только в экстремальную жару!)","🌧️ Резкое похолодание и дождь: Скрытая угроза","После жары дождь и холод бьют по иммунитету. Статистика ГрумАрт: обращения с трещинами лап выросли на 30% именно из-за летних дождей. Влага + горячий асфальт + резкий холод = идеальная среда для дерматитов.","Как защитить питомца в непогоду","Сократите время. Не настаивайте на долгой прогулке под дождем. 10 минут достаточно.","Экипировка. Дождевик или попона обязательны для короткошерстных, мелких пород и пожилых собак.","Сушка — это гигиена. Влажная шерсть = переохлаждение + грибок. Используйте микрофибру или фен (средняя температура, не держите в одной точке!).","Лапы под прицелом. После прогулки мойте и сушите между пальцами. Влага там — прямой путь к опрелостям.","Уход за подушечками. Используйте крем с пантенолом после мытья.","💡 Лайфхак ГрумАрт","Нет воска для лап? Возьмите оливковое или кокосовое масло. Тонкий слой перед прогулкой создаст барьер от влаги и реагентов. Важно: дома обязательно смойте масло, чтобы не испачкать полы.","✅ Чек-лист летней безопасности ГрумАрт","Сохраните себе, чтобы ничего не забыть:","Для жары:","Охлаждающий коврик / жилет","Бутылка-поилка + складная миска","Расческа для вычесывания подшерстка","Кубики льда в миску (для воды и игрушек)","Прохладное место дома (кафель/ванная)","Для дождя и холода:","Дождевик / попона","Защитный воск для лап (или масло)","Полотенце из микрофибры","Увлажняющий крем с пантенолом","Утепленная одежда (для мерзляков)","Главное правило лета: гибкость. То, что спасало вчера, может навредить сегодня. Слушайте своего питомца: вялость, отказ от еды или гиперактивность — это сигналы SOS.","👉 [Записаться на летнюю консультацию]","Подберем правильную экипировку, средства ухода и скорректируем график процедур под текущую погоду. Ваш питомец скажет спасибо!","💡 Почему этот формат работает лучше:","Структура «Проблема → Решение». Текст разбит на четкие блоки. Владелец может открыть статью прямо на прогулке и быстро найти ответ.","Визуальные маркеры опасности. Симптомы перегрева оформлены как чек-лист тревоги. Это повышает шансы, что владелец заметит их вовремя.","Практические лайфхаки. Блоки «Лайфхак ГрумАрт» выделены отдельно. Это создает ощущение эксклюзивной экспертной ценности.","Безопасность превыше всего. Четкие запреты (❌ ЗАПРЕЩЕНО) и предупреждения выделяются визуально. Это снижает риски ошибок.","Интерактивный чек-лист. В конце статьи — готовый список покупок и действий. Это повышает вовлеченность и полезность контента.","Tone of Voice. Уверенный, заботливый, технологичный. Без паники, но с четким пониманием рисков."],"t":"Летний квест: Как помочь питомцу выжить в жару, ливни и резкие перепады"},{"p":["Лисохвост и пырей: Минное поле под лапами (Инструкция по выживанию)","Июнь-июль — это не только золотистые газоны, но и смертельная опасность. Колоски лисохвоста, пырея и ковыля превращают парки в минные поля. Для собаки они работают как острые гарпуны: за 24 часа способны пробурить кожу, мигрировать по телу и привести к гибели.","В «ГрумАрт» мы считаем профилактику этих травм главной задачей летнего груминга. Разбираемся, почему колосок невозможно вытащить самому и как защитить питомца до того, как станет поздно.","⚠️ Механика угрозы: Почему нельзя тянуть?","Колосок — это идеальная ловушка. Его поверхность покрыта микроскопическими чешуйками, направленными строго к острию.","Движение только вперед: С каждым шагом или вдохом он углубляется.","Невозможно извлечь назад: При попытке вытянуть он ломается, оставляя фрагменты внутри тканей.","Миграция: За сутки колосок может пройти от лапы до внутренних органов.","ВАЖНО: В отличие от клеща, у колоска нет тела, за которое можно ухватиться. Самостоятельное извлечение = гарантированная микрооперация и риск оставить инородное тело внутри.","Зоны поражения: Где искать врага?","Колоски атакуют самые влажные и уязвимые места. Проверяйте их после каждой прогулки:","Межпальцевое пространство (Лидер поражений).","Симптомы: Внезапное вылизывание лапы, хромота.","Последствия: Через 2–3 дня образуется абсцесс со свищом и гноем.","Уши.","Симптомы: Тряска головой, скулеж, наклон головы в одну сторону.","Риск: Перфорация барабанной перепонки, глухота.","Нос.","Симптомы: Безудержное чихание (иногда с кровью), односторонние выделения.","Риск: Миграция в легкие или мозг.","Пах и подмышки.","Опасность: Абсцессы здесь часто путают с укусами насекомых, теряя время.","🛡️ Протокол защиты ГрумАрт: Стрижка как спасение","Грумер — это первая линия обороны. Летом каждый визит к нам начинается с прицельного осмотра, даже если вы пришли просто помыть собаку. Но главная защита — это правильная гигиеническая стрижка.","✅ Выстригание шерсти между подушечками","Это не эстетика, а безопасность. Густая шерсть работает как магнит для колосков. Мы убираем её аккуратно, на уровне подушечек, чтобы лапа была защищена сверху, но траве не за что было зацепиться.","✅ Стрижка «под тапок» (Кошачья лапка)","Оформление круглой лапы создает гладкий силуэт. Убирая лишнюю шерсть по периметру стопы, мы делаем лапу неуязвимой для колосков. Это тот случай, когда профессиональный груминг буквально спасает жизнь.","Что делать, если колосок уже вошел?","НЕ пытайтесь вытащить сами. Вы сломаете его и усугубите ситуацию.","Срочно к ветеринару. Извлечение фрагментов из тканей — это хирургическая операция, часто требующая седации.","Не ждите «само пройдет». Колосок не рассосется. Он будет мигрировать, пока не нанесет критический ущерб.","💡 Чек-лист безопасности на лето","После каждой прогулки: Осмотр пальцев, ушей, подмышек (1 минута).","Гигиеническая стрижка: Раз в 2–3 недели (обязательно выстригать межпальцевую шерсть!).","Маршруты: Избегайте высокой травы и обочин дорог в период цветения злаковых.","При симптомах: Немедленно к врачу, никакого самолечения.","Защитите своего питомца до прогулки. В «ГрумАрт» мы знаем, как сделать лапы неуязвимыми для колосков. Не ждите травмы — приходите на профилактическую гигиеническую стрижку.","👉 [Записаться на безопасную летнюю стрижку] Сделаем лапы гладкими, а прогулки — безопасными.","💡 Почему этот формат спасает жизни и привлекает клиентов:","Структура «Угроза → Решение». Текст не просто пугает, а сразу дает инструмент защиты (стрижку). Это конвертирует страх в запись к вам.","Четкие симптомы. Владелец может использовать статью как диагностический чек-лист прямо на прогулке.","Объяснение механики. Блок про «чешуйки» и невозможность самостоятельного извлечения снимает иллюзию «я сам справлюсь». Это критически важно для безопасности.","Профессионализм через действие. Вы показываете, что ваша стрижка «под тапок» — это не мода, а медицинская необходимость. Это оправдывает ценность услуги.","Экстренный тон. Короткие предложения, жирные акценты, предупреждения. Текст читается как инструкция по технике безопасности, что соответствует серьезности темы."],"t":"Лисохвост и пырей: Минное поле под лапами (Инструкция по выживанию)"},{"p":["Собака боится стрижки? Это не вредность, это крик о помощи","Дрожь, попытки убежать, агрессия или ступор при виде машинки — это не «капризы». Это настоящий страх. Для собаки груминг часто выглядит как вторжение в личное пространство: громкие звуки, вибрация, чужие руки и непонятные инструменты.","Если ваш питомец превращается в дрожащий комок на столе, значит, его доверие нарушено. Но хорошая новость в том, что страх можно исправить. Мы в ГрумАрт знаем, как превратить пытку в спокойную рутину, и делимся проверенными методами.","🚨 Почему возникает паника? (4 главные причины)","Сенсорная перегрузка. Звук машинки, запах шампуня, яркий свет, вибрация — для чувствительной собаки это как атака. Мозг не справляется с потоком стимулов.","Неопределенность. Собака не понимает, зачем её держат на столе и что будут делать. Дома вы не трогаете её так, как грумер. Непредсказуемость = опасность.","Тактильный дискомфорт. Прикосновение металлических ножниц или вибрирующей машинки может быть неприятным, если кожа чувствительна или есть скрытые боли.","Негативный опыт. Порез, ожог горячей насадкой или грубое удержание запоминаются навсегда. Собака ждет повторения боли.","Мнение эксперта ГрумАрт:","«7 из 10 новых клиентов приходят со стрессом. И это нормально. Наша задача — не \"победить\" собаку силой, а показать ей, что стол — это безопасное место. Если мы видим дрожь или облизывание губ, мы делаем паузу. Работать \"через страх\" запрещено.»","Язык тела: Как понять, что собаке страшно","Собаки не говорят, но их тело кричит. Научитесь читать эти сигналы:","Дрожь, частое дыхание, слюнотечение — физиологический стресс.","Зевание, облизывание губ, отворачивание взгляда — сигналы успокоения («пожалуйста, не делай мне больно»).","Прижатые уши, поджатый хвост, напряженный корпус — явный страх.","Рычание, попытка укусить — крайняя степень отчаяния («меня не слышат, придется защищаться»).","⚠️ Важно: Агрессия от страха — это не злоба. Это сигнал бедствия. Игнорируя его, вы закрепляете травму.","🛠️ 5 шагов к спокойной стрижке","1. Ранний старт (Профилактика)","Первый опыт определяет всё. Щенок в 2–3 месяца — как пластилин.","Знакомьте с инструментами через игру и лакомства.","Первый визит — это не стрижка, а «знакомство со столом».","Не требуйте максимума сразу. Пусть щенок просто постоит и получит вкусняшку.","2. Метод маленьких шагов (Для тех, кто уже боится)","Не пытайтесь сделать всё за один раз. Разбейте процесс на этапы:","Дать понюхать выключенную машинку → лакомство.","Включить машинку вдали → лакомство.","Коснуться шерстью включенной машинкой → лакомство.","Короткая стрижка (5–10 минут) → игра/угощение.","3. Позитивное подкрепление","Стрижка должна ассоциироваться с чем-то приятным.","Хвалите за каждое спокойное действие.","Используйте высокоценные лакомства (то, что собака обожает).","Заканчивайте процедуру до того, как собака устанет или испугается. Лучше 3 визита по 20 минут, чем один час истерики.","4. Роль хозяина: Спокойствие заразительно","Собака считывает ваше состояние за секунды.","Не паникуйте. Ваше напряжение = её тревога.","Не смейтесь и не кричите. Это усиливает стресс.","Иногда лучше выйти из комнаты. Собака может бояться вас расстроить или, наоборот, манипулировать вашим присутствием. Без хозяина многие собаки расслабляются быстрее.","5. Выбор правильного специалиста","Не все грумеры умеют работать со страхом. Хороший мастер:","Тратит время, не торопится.","Использует безопасную фиксацию (никаких удавок!).","Говорит с собакой мягким голосом.","Готов отложить часть процедуры, если видит усталость.","Совет ГрумАрт: Не стесняйтесь спрашивать: «Как вы работаете с тревожными собаками?». Профессионал расскажет о методах. Фраза «да она привыкнет, не волнуйтесь» — красный флаг.","Можно ли исправить ситуацию?","Да. Даже если страх глубокий, терпение и правильный подход творят чудеса. Регулярные мягкие контакты, предсказуемость и отсутствие боли создают новое нейронное соединение: «Грумер = безопасность + вкусняшка».","Груминг может стать терапией, которая вернет собаке уверенность в себе.","✅ Чек-лист: Готовимся к стрижке без стресса","Начинаем приучение с щенячества (или начинаем сейчас, если опоздали).","Используем только позитивное подкрепление (никаких наказаний!).","Следим за языком тела и делаем паузы при первых признаках стресса.","Выбираем грумера, который уважает границы собаки.","Сохраняем спокойствие сами.","Ваша собака заслуживает бережного отношения. В ГрумАрт мы не работаем «через силу». Мы находим ключик к каждому характеру и делаем уход комфортным.","👉 [Записаться на консультацию для тревожной собаки]","Расскажите нам о страхах вашего питомца заранее — мы подготовимся и найдем правильный подход.","💡 Почему этот формат лучше для сайта:","Заголовок-эмпатия. Сразу снимает чувство вины с владельца («это не вредность»).","Визуализация сигналов. Список признаков страха оформлен буллитами. Владелец может быстро проверить свою собаку прямо во время чтения.","Пошаговый алгоритм. Блок «5 шагов» дает конкретную инструкцию, а не абстрактные советы. Это повышает ценность статьи.","Безопасность как USP. Акцент на отказе от удавок и работе без силы выделяет вас на фоне конкурентов, которые могут использовать жесткие методы.","Tone of Voice. Уверенный, поддерживающий, экспертный. Никакого осуждения владельцев «плохо воспитанных» собак.","CTA с сегментацией. Призыв записаться именно «для тревожной собаки» показывает, что вы специализируетесь на сложных случаях."],"t":"Собака боится стрижки? Это не вредность, это крик о помощи"},{"p":["Тибетский мастиф: Забота о великане, достойная короля (Гид по выживанию)","Груминг тибетского мастифа — это всегда событие. Густая грива, мощный корпус, взгляд, читающий вас насквозь. Но за величественной внешностью скрывается характер, требующий уважения, и шерсть, нуждающаяся во времени не меньше, чем содержание лошади.","Мы в ГрумАрт работаем с этими гигантами регулярно. Этот гид — не таблицы, а живой опыт мастеров. Честные советы, важные детали и предупреждения для тех, кто выбрал эту породу.","⚠️ Это животное не для всех","«Тибетский мастиф — не просто любимец, это образ жизни. Они умны, самостоятельны и не подчиняются \"просто так\". Если вы живете в однушке и мечтаете о плюшевом медведе — пройдите мимо.» — Анна, грумер (10 лет опыта).","Базовые требования:","Простор. Загородный дом с участком. Цепь = пытка. Вольер минимум 135×100×95 см. Будка — размер взрослого медведя.","Активность. Выгул 2 раза в день по 30–40+ минут. До года суставы уязвимы: никаких прыжков и длительных нагрузок!","Общение. Скука для мастифа — враг. Без внимания он превратит участок в карьер, а дом — в поле для экспериментов.","Жара. Несмотря на шубу, перегрев опасен. Тень + много воды обязательны.","🦁 Шерсть: Двойная защита, двойная работа","Густой подшерсток + длинная ость = идеальная терморегуляция. Пес не мерзнет зимой и не перегревается летом, если его наряд в порядке.","График вычесывания:","Обычное время: 2–3 раза в неделю.","Линька (весна, раз в год): КАЖДЫЙ ДЕНЬ. Лучше на улице, иначе дом станет войлоком.","Главная проблема: Колтуны под воротником, за ушами, в «штанах» и между пальцами. Хозяева часто чешут только верхний слой, а внутри уже свал. Правило ГрумАрт: Приподнимайте остевой волос и прорабатывайте ярусами до кожи!","Арсенал владельца:","Пуходерка / фурминатор (для подшерстка).","Гребень с длинными зубьями.","Щетка из натуральной щетины (для блеска).","Спрей для распутывания (облегчает жизнь обоим).","Колтунорез (только для исключительных случаев!).","Техника: Мягкая щетка → пуходерка → гребень. Нашли колтун? Не дерите! Спрей → разбор руками → колтунорез.","🛁 Купание: Редко, но с чувством","Мастифы чистоплотны, запаха почти нет. Частое мытье вредит: смывается защита, волос ломается, появляется перхоть.","График: Не чаще 1 раза в 1–2 месяца. Только по необходимости.","Шампунь: Для двойной шерсти, желательно против линьки.","Сушка — отдельный квест! Подшерсток сохнет долго. Мокрый пес на улице = простуда. Сушим двухмоторным компрессором до самой дермы. Иногда это занимает несколько часов, но иначе никак.","Межсезонье: Сухие шампуни. Летом — плавание (полезно для суставов!).","ТАБУ: Никогда не стричь под ноль!","«Я видел мастифов, побритых \"чтобы не жарко\". Результат: испорченная шерсть (не восстанавливается годами), солнечные ожоги, тепловой удар. Густая шуба — это УФ-защита и кондиционер одновременно. Убирать её = снять с человека кожу. В жару достаточно вычесать подшерсток и дать тень + воду.» — Сергей, грумер.","Исключение: Легкая филировка ножницами для выставочных собак. Только профессионал!","🔍 Детали, которые нельзя упускать","Зона","Уход","Почему важно","Лапы","Стричь шерсть между пальцами ножницами с тупыми концами. После прогулки: осмотр, мытье, сушка.","Летом мусор, зимой снег → воспаления.","Когти","Стричь 2–3 раза в месяц. Приучать щенков с раннего возраста.","Взрослый гигант должен спокойно давать лапы.","Уши","Осмотр + лосьон раз в неделю. ❌ ВАТНЫЕ ПАЛОЧКИ ЗАПРЕЩЕНЫ!","Глубокие проходы склонны к инфекциям.","Зубы","Чистка 2–3 раза в неделю + жевательные лакомства.","Профилактика камня и болезней десен.","Глаза","Протирание ромашкой/лосьоном (отдельная салфетка на каждый глаз).","Гигиена и профилактика закисания.","⚖️ Баланс и питание: Никакой жалости","Лишний вес для мастифа = смертельный враг (риск дисплазии!).","Формула рациона:","60% мясо (говядина, кролик, индейка).","30% крупы (рис, гречка).","10% овощи, фрукты, витамины.","Допустимо: субпродукты, вареная морская рыба, кисломолочка (взрослым молоко нельзя!), яйца 1–2 р/нед.","Овощи: морковь, тыква, капуста, перец. Яблоки — лакомство.","⛔ СТРОГИЙ ЗАПРЕТ: Шоколад, сладкое, копчености, свинина, речная рыба, трубчатые кости (куриные!), картофель, бобовые, макароны.","Режим: До 3 мес — 5 раз/день. К 5 мес — 2 раза/день (утро/вечер). Сухой корм — только премиум/супер-премиум для крупных пород.","Здоровье под контролем","Крепкие от природы, но есть слабые места:","Дисплазия суставов: Контроль веса + умеренные нагрузки. Хромота = срочно к врачу.","Гипотиреоз: Ежегодный анализ крови.","Заворот желудка: Кормить 2 раза/день, не допускать голодания, покой после еды.","Глаза: Регулярный осмотр.","При хорошем уходе живут 10–13 лет, сохраняя достоинство.","✂️ Почему великанам нужен профессионал ГрумАрт?","Не каждый мастер знает, как работать с двойным мехом и независимым гигантом.","Что мы делаем:","Осмотр кожи/шерсти, выявление скрытых колтунов.","Экспресс-линька с выдувом подшерстка компрессором (сокращает линьку в разы!).","Деликатное распутывание без выстригания (где возможно).","Мытье проф. средствами для двойной шерсти.","Полная сушка до дермы (самое долгое, но необходимое!).","Гигиена лап, ушей, когтей.","Филировка ножницами (для выставочных).","«Выставочный груминг мастифа — 10–12 часов. Гигиенический — минимум 3 часа. Мы никогда не торопим, даем перерывы, работаем в комфортном темпе. Главное — чтобы питомец ушел расслабленным и довольным.» — Екатерина, грумер.","❌ Три фатальные ошибки владельцев","Бритье «под ноль» в жару. Навсегда портит волос, подрывает здоровье.","Слишком частое купание. Сушит кожу, ломает волос, лишает защиты.","Игнорирование подшерстка. Чесание только верха = колтуны внутри = выстригание.","+ Два важных напоминания:","Уши и лапы требуют еженедельного внимания. Запуск = будущие проблемы.","Квартирное содержание для мастифа = стресс. Нет пространства? Возможно, эта порода не для вас.","💡 Итог: Ответственность на десятилетие","Тибетский мастиф — не просто красивый великан. Это решение, требующее времени, сил и финансов. Но благодарность в глазах гиганта, который доверяет вам жизнь, стоит всех затрат.","Не экономьте на уходе. Шерсть, суставы, уши, зубы — единая система. Регулярное вычесывание, редкое купание с качественной сушкой, осмотр у грумера и ветеринара — и ваш подопечный будет выглядеть как истинный король Гималаев.","Доверьте великана профессионалам. В ГрумАрт мы знаем, как подружиться с мастифом и сделать визит комфортным для обоих.","[Записаться на груминг тибетского мастифа] Опыт + терпение + профессиональный уход. Ваш король заслуживает лучшего."],"t":"Тибетский мастиф: Забота о великане, достойная короля (Гид по выживанию)"},{"p":["ТОП-5 ошибок в домашнем уходе, которые стоят вам денег (и здоровья питомца)","Каждый владелец хочет сэкономить время и деньги на груминге. Но часто попытка сделать всё дома заканчивается визитом к ветеринару и дорогостоящим лечением кожи.","Мы в ГрумАрт честно признаемся: даже наши топ-мастера совершали эти ошибки в начале пути. Разбираем 5 самых опасных промахов, чтобы вы не повторяли чужой опыт.","❌ Ошибка №1: Мыть собаку человеческим шампунем","«Ну что такого? Пахнет приятно, шерсть мягкая».","Реальность: Вы разрушаете защитный барьер кожи питомца.","Факт от ГрумАрт:","pH кожи человека — кислый (~5.5). У собак — щелочной (6.5–7.5). Человеческий шампунь нарушает этот баланс мгновенно. Результат: перхоть, зуд, дерматиты, тусклая и ломкая шерсть. Восстановление занимает месяцы.","✅ Решение: Только специализированные зоошампуни с правильным pH. Это дешевле, чем лечение у дерматолога.","❌ Ошибка №2: Игнорировать вычесывание короткошерстных собак","«У него короткая шерсть, зачем расческа?»","Реальность: Вычесывание — это не про красоту, а про здоровье кожи.","Стимуляция кровообращения и роста новой шерсти.","Удаление отмерших волосков, мешающих коже дышать.","Распределение естественного жира по всей длине.","✅ Решение: Гладкошерстных — минимум раз в неделю. Длинношерстных — ежедневно. Используйте разные инструменты (гребень, фурминатор, массажная щетка) и прочесывайте до самой кожи, а не только поверхность.","❌ Ошибка №3: Пытаться вычесать колтун самостоятельно","«Само распутается, потерплю».","Реальность: Колтун — это парниковая камера для бактерий. Он стягивает кожу, нарушает кровоток и вызывает язвы. Попытка вычесать его дома = боль для собаки и риск поранить её.","✅ Решение: Если колтун уже есть — не трогайте его сами. Идите к грумеру. Профилактика: регулярное вычесывание + сушка после прогулок в сырую погоду.","❌ Ошибка №4: Сушить феном на максимуме","«Включу горячий воздух, чтобы быстрее высохла».","Реальность: Горячий поток = ожог кожи + ломкая шерсть. Пересушенная кожа начинает чесаться и воспаляться.","✅ Правильная сушка:","Средняя температура.","Расстояние от фена — минимум 30 см.","Постоянное движение (не держать на одном месте!).","Обязательное использование кондиционера (создает термозащиту).","❌ Ошибка №5: Запускать уход за глазами и ушами","«Я же мою морду целиком, зачем отдельно чистить?»","Реальность: Уши и глаза — главные индикаторы здоровья. Грязь, пыльца и бактерии скапливаются там быстрее всего. Пропуск чистки = отиты, аллергии, хронические воспаления.","✅ Решение:","Глаза: ежедневная очистка специальным лосьоном.","Уши: еженедельная чистка + удаление шерсти из слухового прохода.","После прогулки: протирать мордочку влажной салфеткой (удаляем аллергены).","💡 Главный вывод ГрумАрт","Домашний уход — это необходимость, но он должен быть грамотным. Один раз научитесь правильным процедурам — и сэкономите на врачах. Ваш питомец будет не просто чистым, а здоровым и блестящим.","Сомневаетесь? Спросите профи.","В ГрумАрт мы не только стрижем, но и обучаем. Приходите на консультацию — покажем, какие инструменты и средства подходят именно вашей собаке. Запись не обязательна, мы всегда рады помочь советом!","👉 [Записаться на консультацию по уходу]","Научим ухаживать правильно, чтобы ваш питомец был счастлив.","💡 Почему этот формат идеален для сайта:","Структура «Ошибка → Реальность → Решение». Пользователь мгновенно сканирует текст и понимает суть проблемы. Нет сплошных абзацев.","Блоки «Факт от ГрумАрт». Выделяют экспертность и объясняют почему нельзя так делать (про pH, про парниковый эффект). Это повышает доверие.","Четкие инструкции. Вместо общих фраз даны конкретные действия (расстояние 30 см, средняя температура, ежедневная чистка глаз).","Мягкий CTA. Призыв записаться на консультацию звучит как помощь, а не продажа. Фраза «Запись не обязательна» снижает барьер входа.","Tone of Voice. Честный, предупредительный, но не осуждающий. Мы говорим: «Мы тоже ошибались, вот как исправить»."],"t":"ТОП-5 ошибок в домашнем уходе, которые стоят вам денег (и здоровья питомца)"},{"p":["Философия ГрумАрт: Уход как искусство заботы (2026)","«Собака — это член семьи». В 2026 году эта фраза перестала быть клише. Она стала стандартом индустрии. Внешний вид питомца больше не существует отдельно от его самочувствия, а мода уступила место осознанности.","Груминг перестал быть просто услугой. Это культура ухода, где здоровье, комфорт и индивидуальность важнее скорости. Мы в ГрумАрт не следуем трендам — мы создаем их, ставя во главу угла благополучие вашего питомца.","🌿 Wellness-груминг: Счастье важнее скорости","Забудьте про конвейерный подход «побыстрее и подешевле». В 2026 году на первом месте — эмоциональный комфорт.","Работа на доверие. Мы не стригем «через силу». Мастер читает язык тела, делает паузы, подбирает индивидуальный темп.","Безопасная среда. Собака должна выходить от нас счастливой, а не просто чистой.","Осознанный выбор. Владельцы готовы инвестировать в качество, зная, что их любимец чувствует себя в безопасности.","Мнение эксперта:","«Раньше просили \"сделайте покороче\". Сейчас спрашивают: \"Как вы успокаиваете собаку?\". И это прекрасно. Мы работаем не на поток, а на результат, который измеряется вилянием хвоста.» — Наталья Васильева, топ-мастер ГрумАрт.","🎨 Искусство без шаблонов","Универсальных решений больше не существует. Одинаковая стрижка для активного лабрадора и флегматичного спаниеля? Это прошлый век.","Наш грумер — это художник и консультант в одном лице. Мы учитываем:","Тип шерсти и возраст.","Характер и темперамент.","Образ жизни и анатомию.","Мы не просто повторяем форму — мы создаем силуэт, который подчеркивает уникальность вашего питомца. Мастера ГрумАрт проходят обучение в собственной академии, потому что ремесло копирует, а искусство — создает.","✨ Окрашивание: Живопись на шерсти","Цвет — это инструмент самовыражения, но только если он безопасен. В 2026 году правило одно: здоровье прежде эстетики.","Только сертифицированные краски. Никакого вреда для кожи и шерсти.","Профессиональная палитра. Мы создаем гармоничные образы, а не «кислотные эксперименты».","Психология цвета. Учитываем реакцию пигмента и характер собаки.","Окрашивание в ГрумАрт — это ювелирная работа, где техника встречается с чувством стиля.","🚀 Технологии комфорта","Премиальный уход невозможен без современных технологий. В наших салонах внедрены решения, которые меняют восприятие процедуры:","SPA-зоны релакса. Специальная подсветка, массажеры и арома-терапия снижают уровень стресса.","Умная сушка. Мощные боксы сокращают время процедуры, сохраняя шерсть здоровой, а нервы собаки — крепкими.","Эко-косметика. Мы используем натуральные составы, часть из которых производим сами. Вы всегда знаете, чем моют вашего питомца.","Наша цель: Чтобы поход в салон ассоциировался не со стрессом, а с приятным SPA-днем.","Итог: Баланс красоты и здоровья","Груминг 2026 года — это про гармонию. Когда вы записываетесь в ГрумАрт, вы получаете не просто стрижку. Вы получаете комплексный уход, где каждая деталь продумана для счастья вашего питомца.","Красиво. Полезно. Безопасно. Именно так сегодня выглядит настоящая любовь.","👉 [Записаться на Wellness-груминг]","Познакомьтесь с новой культурой ухода. Ваш питомец заслуживает лучшего.","💡 Почему этот текст усилит твой сайт:","Позиционирование бренда. Текст сразу отделяет вас от обычных салонов «у дома». Вы — эксперты нового поколения.","Структура ценностей. Четкие блоки (Wellness, Искусство, Технологии) позволяют посетителю быстро понять ваши преимущества.","Эмоциональные якоря. Фразы вроде «счастье важнее скорости» и «виляние хвоста» создают глубокую связь с владельцем.","Технологичность. Упоминание SPA-зон, умной сушки и эко-косметики подтверждает статус премиум-сегмента и оправдывает цену.","Tone of Voice. Уверенный, современный, вдохновляющий. Без пафоса, но с четким пониманием своей миссии."],"t":"Философия ГрумАрт: Уход как искусство заботы (2026)"},{"p":["Шпиц: Почему брить «под ноль» — это преступление против шерсти (и как делать правильно)","Шпиц — это не просто собака, это ходячее облако, которое требует особого подхода. Вокруг этой породы витает главный миф: «Летом жарко, надо побрить».","Стоп. Забудьте об этом.","Мы в ГрумАрт видим последствия таких «добрых» решений каждый день. Разбираемся, почему машинка — враг шпица, и какой уход на самом деле делает шерсть идеальной.","❌ Почему нельзя брить шпица (даже живот!)","Владельцы бреют собак из лучших побуждений, но результат всегда один — испорченная шерсть и проблемы с кожей. Вот 4 причины сказать машинке «нет»:","Шерсть — это кондиционер, а не шуба. Двойной покров шпица (остевая шерсть + подшерсток) работает как термос. Зимой греет, летом защищает от перегрева, создавая воздушную прослойку. Без шерсти собака получает солнечные ожоги и тепловой удар гораздо быстрее.","Шерсть может не восстановиться. Остевой волос растет медленно. После бритья он может стать мягким, ватным и перестать стоять «ежиком». Восстановление занимает от 1,5 до 2 лет. Вы рискуете превратить элегантного шпица в бесформенное облако.","Кожа страдает. Кожа шпица тонкая и нежная. Машинка оставляет микротравмы, вызывает раздражение и дерматиты. Особенно уязвим живот — там кожа самая чувствительная.","Эффект «валенок». Отрастающая после бритья шерсть часто сбивается в колтуны прямо у корней, создавая парниковый эффект для кожи.","** Мнение эксперта ГрумАрт:** «Часто к нам приносят собак после домашней стрижки \"под льва\". Хозяева думали, что помогают, а мы потом годами восстанавливаем структуру шерсти. Живот красный, собака чешется, а шерсть больше не блестит. Бритье — это не помощь, это травма.»","✅ Как ухаживать правильно: Золотой стандарт","Хотите идеального шпица? Забудьте про машинку и возьмите в руки правильные инструменты.","1. Вычесывание — это база","Не «по верхам», а до самой кожи.","Как часто: 2–3 раза в неделю. В линьку — каждый день.","Инструменты: Гребень с редкими зубьями (для длины), пуходерка или фурминатор (для подшерстка), колтунорез (для сложных участков).","Зоны внимания: Шея, за ушами, «штанишки» на задних лапах. Там колтуны образуются первыми.","2. Гигиеническая стрижка (Только ножницы!)","Шпицу нужна аккуратность, а не лысина.","Лапы: Выстригаем шерсть между пальцами регулярно. Там скапливается грязь и влага — привет, грибок.","Интимная зона: Обязательно коротко, чтобы не пачкалось.","Живот: Только филировочными ножницами! Можно слегка укоротить длинную шерсть на 1–2 см, если она мешает или мокнет, но никакой машинки.","3. Мытье и сушка","Помыть — это полдела. Главное — высушить.","Моем раз в 1–1,5 месяца.","Сушим феном, постоянно разбирая шерсть руками или расческой. Если оставить собаку сохнуть естественно — гарантированы колтуны у корней.","☀️ Шпиц летом: Инструкция по выживанию","Вместо бритвы используйте эти лайфхаки:","🕒 Гуляйте утром и вечером, когда солнце не активно.","💧 Вода всегда с собой.","❄️ Охлаждающие коврики дома — мастхэв.","Доступ к прохладе: кафель, ванная, кондиционер.","📝 Чек-лист владельца шпица от ГрумАрт","Сохраните себе, чтобы не потерять:","Вычесывание: 2–3 раза в неделю (в линьку — ежедневно).","Стрижка лап и интимки: раз в 2–3 недели (ножницами!).","Живот: никогда не брить, только легкая коррекция ножницами.","Мытье + Сушка феном: раз в месяц.","Лето: охлаждающий коврик + прогулки в тени.","Шпиц — это порода для тех, кто готов уделять время уходу. Но если вам лень вычесывать или страшно стричь — доверьте это профи.","👉 [Записаться на гигиенический груминг] Мы знаем все секреты шпицевой шерсти и сохраним её красоту без вреда для здоровья."],"t":"Шпиц: Почему брить «под ноль» — это преступление против шерсти (и как делать правильно)"}];
+  (function () {
+    const grid = document.getElementById('blog-grid');
+    const reader = document.getElementById('reader');
+    const rdTitle = document.getElementById('rd-title');
+    const rdText = document.getElementById('rd-text');
+    const rdClose = document.getElementById('rd-close');
+    if (!grid || !ARTICLES.length) return;
+    const icons = ['newspaper', 'heart-pulse', 'scissors', 'shower-head', 'paw-print', 'leaf', 'stethoscope', 'alert-triangle', 'sun', 'footprints', 'bone', 'dog', 'cat', 'sparkles', 'feather', 'shield-check'];
+    ARTICLES.forEach((a, i) => {
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'blog-card';
+      card.innerHTML =
+        '<i class="bc-ic" data-lucide="' + (icons[i % icons.length]) + '"></i>' +
+        '<h3>' + a.t + '</h3>' +
+        '<p>' + (a.p[1] || a.p[0] || '') + '</p>' +
+        '<span class="bc-more">Читать <i data-lucide="arrow-right"></i></span>';
+      card.addEventListener('click', () => {
+        rdTitle.textContent = a.t;
+        rdText.innerHTML = a.p.map(s => '<p>' + s + '</p>').join('');
+        reader.hidden = false;
+        reader.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        rdClose.focus();
+      });
+      grid.appendChild(card);
+    });
+    if (window.lucide) lucide.createIcons();
+    function closeRd() {
+      reader.classList.remove('open');
+      reader.hidden = true;
+      document.body.style.overflow = '';
+    }
+    rdClose.addEventListener('click', closeRd);
+    reader.addEventListener('click', e => { if (e.target === reader) closeRd(); });
+    addEventListener('keydown', e => { if (e.key === 'Escape' && reader.classList.contains('open')) closeRd(); });
+  })();
+</script>
+</body>
+</html>
